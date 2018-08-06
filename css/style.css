@@ -1,0 +1,198 @@
+body {
+	background-color: rgb(187, 187, 187);
+	margin: 0px;
+}
+
+::selection{
+	background: none;
+}
+
+#top {
+	margin: 0px;
+	background-color: rgb(230, 230, 230);
+    padding: 3px;
+    position: relative;
+	top: 0;
+	right: 0;
+	left: 0;
+	display: block;
+	overflow: auto;
+}
+
+#top > div {
+	display: flex;
+	flex-flow: row;
+}
+
+
+#maindiv {
+	display: flex;
+	justify-content: center; /* center horizontally */
+	align-items: center; /* center vertically */
+	margin: 5px;
+	height: auto;
+	position: relative;
+
+}
+
+canvas {
+	box-shadow: 5px 5px 5px grey;
+	background-color: rgb(255, 255, 255);
+	/*height: auto;*/
+}
+
+#footerbar {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	display: flex;
+	flex-flow: row nowrap;
+	background-color: rgb(230, 230, 230);
+   	font-family: Verdana;
+   	font-size: 14;
+   	align-items: center;
+   	padding: 0px;
+   	margin: 0px;
+	overflow: auto;
+}
+
+#coords {
+	width: 30%; 
+   	border: 1px solid rgb(200, 200, 230);
+   	padding: 0px;
+   	margin: 0px;
+
+}
+
+#dim{
+	width: 30%; 
+   	border: 1px solid rgb(200, 200, 230);
+   	padding: 0px;
+   	margin: 0px;
+
+
+}
+
+#zoomdiv {
+	width: 40%;
+   	border: 1px solid rgb(200, 200, 230);
+   	padding: 0px;
+   	margin: 0px;
+}
+
+#zoomdiv div {
+	display: flex;
+	flex-flow: row-reverse nowrap;
+}
+
+.ribbonContainer {
+	display: flex;
+	justify-content: space-around;
+	flex-flow: column;
+	border-color: rgb(200, 200, 200);
+	border-style: solid;
+	border-right-width: 2px;
+	border-left-width: 2px;
+	border-top: none;
+	border-bottom: none;
+	display: inline-flex;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+.ribbonContainer div {
+	display: flex;
+	flex-flow: row;
+}
+
+.ribbonContainer > .label {
+	color:  rgb(80, 80, 80);
+	align-self: center;
+	margin-top: 2px;
+}
+
+.tool{
+	display: none;
+}
+
+.tool + label {
+	border-style: none;
+	background-repeat: no-repeat;
+	width: 32px;
+	height: 32px;
+}
+
+.colors {
+	display: none;
+}
+.colors + label{
+	border-style: none;
+	background-repeat: no-repeat;
+	width: 32px;
+	height: 32px;
+	margin: 1px;
+}
+
+.tool:hover + label{
+	background-color: rgb(200, 200, 200);
+}
+
+.tool[disabled]:hover + label{
+	background-color: rgb(230, 230, 230);
+}
+
+.tool:active + label{
+	opacity: 0.6;
+}
+.tool[disabled] + label{
+	/*background-color: rgba(250, 250, 250, 160);*/
+	opacity: 0.5;
+}
+.tool:checked + label{
+	background-color: rgb(200, 200, 200);
+
+}
+#tool-pen + label{
+	background-image: url("../resources/icons/tool-pen-32.png");
+}
+
+#tool-line + label{
+	background-image: url("../resources/icons/tool-line-32.png");
+}
+#tool-rectangle + label{
+	background-image: url("../resources/icons/tool-rectangle-32.png");
+}
+#tool-linestrip + label{
+	background-image: url("../resources/icons/tool-linestrip-32.png");
+}
+#tool-polygon + label{
+	background-image: url("../resources/icons/tool-polygon-32.png");
+}
+#tool-circle + label{
+	background-image: url("../resources/icons/tool-circle-32.png");
+}
+#tool-curve + label{
+	background-image: url("../resources/icons/tool-curve-32.png");
+}
+#tool-brush + label{
+	background-image: url("../resources/icons/tool-brush-32.png");
+}
+#tool-eraser + label{
+	background-image: url("../resources/icons/tool-eraser-32.png");
+}
+#tool-fill + label{
+	background-image: url("../resources/icons/tool-fill-32.png");
+}
+#tool-selectbox + label{
+	background-image: url("../resources/icons/tool-selectbox-32.png");
+}
+#tool-selectfree + label{
+	background-image: url("../resources/icons/tool-selectfree-32.png");
+}
+#tool-undo + label{
+	background-image: url("../resources/icons/tool-undo-32.png");
+}
+#tool-redo + label{
+	background-image: url("../resources/icons/tool-redo-32.png");
+}
