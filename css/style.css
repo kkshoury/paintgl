@@ -1,10 +1,37 @@
 body {
 	background-color: rgb(187, 187, 187);
 	margin: 0px;
+	color: rgb(80, 80, 80);
 }
 
 ::selection{
 	background: none;
+}
+
+#menu {
+	background-color: rgb(249, 249, 250);
+	display: flex;
+	flex-flow: row;
+}
+
+#menu > div {
+	padding-left: 30;
+	padding-right: 30;
+	/*min-width: 200px;*/
+	align-content: center;
+	justify-content: center;
+	display: flex;
+	border-top: 1px solid rgb(200, 200, 230);
+	border-left: 1px solid rgb(200, 200, 230);
+	border-right: 1px solid rgb(200, 200, 230);
+	/*border-bottom: 1px solid rgb(230, 230, 230);*/
+	opacity: 0.6;
+}
+
+#menu div.selectedMenuItem{
+	background-color: rgb(230, 230, 230);
+	opacity: 1
+
 }
 
 #top {
@@ -17,6 +44,7 @@ body {
 	left: 0;
 	display: block;
 	overflow: auto;
+	/*border-top: 1px solid rgb(200, 200, 230);*/
 }
 
 #top > div {

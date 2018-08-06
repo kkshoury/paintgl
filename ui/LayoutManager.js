@@ -238,7 +238,7 @@ class Color extends React.Component {
     let label = React.createElement("label", {htmlFor: this.props.id, 
       style: {"color" : "rgb(" + this.props.r + ", " + this.props.g + ", " + this.props.b + ")",
         "background-color" : "rgb(" + this.props.r + ", " + this.props.g + ", " + this.props.b + ")"}
-    }, "Col");
+    }, null);
 
     
     return React.createElement("div", null, input, label);

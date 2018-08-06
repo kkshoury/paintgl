@@ -219,6 +219,14 @@ CONFIG.COLORS.supportedColors={
 			b: 0,
 			load: true,
 			enabled: true
+		},
+		"21":
+		{
+			r: 200,
+			g: 0, 
+			b: 230,
+			load: true,
+			enabled: true
 		}
 
 	}
