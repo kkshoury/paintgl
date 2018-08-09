@@ -1,78 +1,92 @@
 const paintgl = {};
-var log = function(t){
+var dlog = function(t){
 	if(log.enableDebugLogging){
 		console.log(t);
 	}
 }
+
+var log = function(msg, src){
+	if(!src){
+		console.log("paintgl: " + msg);
+	}
+	else if(src){
+		console.log("paintgl<" + src + ">: " + msg);
+	}
+}
+
+
 log.enableDebugLogging = false;
 
-paintgl.start = function(){
+paintgl.start = function(config){
+	if(!config){
+		log("Failed to start. No cofiguration file");
+		return;
+	}
+
 	paintgl.loadUI();
+	let result = init(config);
 
-	let canvas = document.getElementById("canvas");
-	paintgl.ArtManagers.CanvasManager = new CanvasManager(canvas);
-
-	paintgl.initIO(canvas);
-	paintgl.initManagers(paintgl.ArtManagers.CanvasManager.getWebGLContext());
-
-	let layoutManager = new LayoutManager();
-	layoutManager.init();
+	if(!result){
+		log("Failed to start. Cannot init");
+	}
 	document.getElementById("tool-line").checked =true;
 }
 
-paintgl.ArtManagers = {};
-paintgl.IOManagers = {};
-paintgl.ControlManagers = {};
+function init(config){
+	if(!config){
+		log("Failed to start. No cofiguration file");
+		return false;
+	}
 
-paintgl.initIO = function(canvas){
-	let mouseInputManager = new MouseInputManager(canvas);
-	paintgl.IOManagers.MouseInputManager = mouseInputManager;
+	let initManagers = config.STARTUP.INIT();
 
-}
+	let upperContextStrings = Object.keys(initManagers);
 
-paintgl.initManagers = function(gl){
-	let pathManager = new PathManager2D(gl);
-	let MouseInputManager = paintgl.IOManagers.MouseInputManager;
-	let controlPointManager = new ControlPointManager(gl);
-	let toolManager = new ToolManager();
-	let lineTool = new LineTool();
-	let rectangleTool = new RectangleTool();
-	let polyTool = new PolygonTool();
+	upperContextStrings.forEach(ucs => {
+		paintgl[ucs] = paintgl[ucs] || {};
+		Object.keys(initManagers[ucs]).forEach(contextObjectKey => {
+			(paintgl[ucs])[contextObjectKey] = new (initManagers[ucs])[contextObjectKey]();
+			if((paintgl[ucs])[contextObjectKey].preInit){
+				(paintgl[ucs])[contextObjectKey].preInit();
+			}
+		})
+	});
 
-	toolManager.addTool(polyTool);
-	toolManager.addTool(lineTool);
-	toolManager.addTool(rectangleTool);
-	toolManager.setActiveTool(lineTool.id);
+	Object.values(paintgl).forEach(v => {
+		Object.values(v).forEach(ctx => {
+			if(ctx.init){
+				ctx.init(paintgl);
+			}
+		})
+	});
+
+	Object.values(paintgl).forEach(v => {
+		Object.values(v).forEach(ctx => {
+			if(ctx.postInit){
+				ctx.postInit(paintgl);
+			}
+		})
+	});
+
+	Object.values(paintgl).forEach(v => {
+		Object.values(v).forEach(ctx => {
+			if(ctx.start){
+				ctx.start(paintgl);
+			}
+		})
+	})
 
 
-	paintgl.ArtManagers.PathManager2D = pathManager;
-	
-	paintgl.ControlManagers.ControlPointManager = controlPointManager;
-	paintgl.ControlManagers.ToolManager = toolManager;
-	
-	paintgl.IOManagers.MouseInputManager.addListener(toolManager, MouseInputManager.MOUSE_DOWN);
-	paintgl.IOManagers.MouseInputManager.addListener(toolManager, MouseInputManager.MOUSE_UP);
-	paintgl.IOManagers.MouseInputManager.addListener(toolManager, MouseInputManager.MOUSE_MOVE);
-	paintgl.IOManagers.MouseInputManager.addListener(toolManager, MouseInputManager.MOUSE_DOUBLE_CLICK);
-
-	paintgl.IOManagers.MouseInputManager.addListener(controlPointManager, MouseInputManager.MOUSE_DOWN);
-	paintgl.IOManagers.MouseInputManager.addListener(controlPointManager, MouseInputManager.MOUSE_UP);
-	paintgl.IOManagers.MouseInputManager.addListener(controlPointManager, MouseInputManager.MOUSE_MOVE);
-
-
-	pathManager.init();
-	rectangleTool.init();
-	lineTool.init();
-	polyTool.init();
+	return true;
 
 }
 
 paintgl.loadUI = function(){
-	let canvas = document.createElement("canvas");
-	canvas.id = "canvas";
-	canvas.width = 800;
-	canvas.height = 600;
-	document.getElementById("maindiv").append(canvas);
+	// let canvas = document.createElement("canvas");
+	// canvas.id = "canvas";
+	// canvas.width = 800;
+	// canvas.height = 600;
+	// document.getElementById("maindiv").append(canvas);
 
 	
 }

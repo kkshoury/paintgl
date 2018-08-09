@@ -1,21 +1,14 @@
-function getMousePos(evt) {
-	let canvas = document.getElementById("canvas");
-    let rect = canvas.getBoundingClientRect();
-    return [(evt.clientX - rect.left) / canvas.width * 2 -1, 
-    		(evt.clientY - rect.top) / canvas.height * -2 + 1];
-}
-
 class ControlPointManager {
 	//stores control points for graphics
 	//manages control point rendering and selection
 	//fires control point changed events
 
-	constructor(gl){
+	constructor(){
 		this.LOST_CONTROL_EVENT = 1;
 		this.CONTROL_POINT_SELECTED_EVENT = 2;
 		this.CONTROL_POINT_MOVED_EVENT = 3;
 
-		this.controlPointRenderer = new ControlPointRenderer(gl);
+		this.controlPointRenderer = new ControlPointRenderer();
 		this.listeners = {};
 
 		this.selectedPointIndex = -1;
@@ -37,7 +30,16 @@ class ControlPointManager {
 			this.controlPointRenderer.clearControlPoints()
 		};
 		
-		paintgl.ArtManagers.CanvasManager.renderer.addRenderer(this.controlPointRenderer);
+	}
+
+	init(paintgl){
+	}
+
+	postInit(paintgl){
+		paintgl.Events.EventEmitter.listen(this.onMouseDown.bind(this), "MOUSE_DOWN", "GL_WINDOW");
+		paintgl.Events.EventEmitter.listen(this.onMouseUp.bind(this), "MOUSE_UP", "GL_WINDOW");
+		paintgl.Events.EventEmitter.listen(this.onMouseMove.bind(this), "MOUSE_MOVE", "GL_WINDOW");
+		paintgl.Engine.RenderingEngine2D.addRenderer(this.controlPointRenderer);
 	}
 
 	registerControlPoint(index, p){
@@ -99,12 +101,14 @@ class ControlPointManager {
 
 		this.mouseIsDown = true;
 		this.mouseMovedWhileDown = false
-		let p = getMousePos(e);
-		let index = this.checkSelectedPoint(p);
+		let mx = e.clipX;
+		let my = e.clipY;
+
+		let index = this.checkSelectedPoint([mx, my]);
 		if(index){
 			this.selectedPointIndex = index;
 			
-			log("fire: point selected");
+			dlog("fire: point selected");
 			this.fireEvent({
 				type : this.CONTROL_POINT_SELECTED_EVENT,
 				index : this.selectedPointIndex
@@ -127,9 +131,11 @@ class ControlPointManager {
 
 		this.mouseIsDown = false;
 		this.selectedPointIndex = -1;
-		let p = getMousePos(e);
+		let mx = e.clipX;
+		let my = e.clipY;
+
 		if(this.mouseMovedWhileDown == false){
-			// log("fire: lost control");
+			// dlog("fire: lost control");
 			// this.fireEvent({
 			// 	type: this.LOST_CONTROL_EVENT,
 			// 	mousePosition : p
@@ -152,12 +158,16 @@ class ControlPointManager {
 		this.mouseMovedWhileDown = true;
 
 		if(this.selectedPointIndex != -1){
-			let p = getMousePos(e);
+			let mx = e.clipX;
+			let my = e.clipY;
+
+			let p = [mx, my];
+
 			this.setControlPoint(this.selectedPointIndex, p);
 			this.controlPointRenderer.clearControlPoints();
 			this.addPointsToRenderer();
-			paintgl.ArtManagers.CanvasManager.refresh();
-			log("fire: control point moved");
+			paintgl.Engine.RenderingEngine2D.refresh();
+			dlog("fire: control point moved");
 			this.fireEvent({
 				type : this.CONTROL_POINT_MOVED_EVENT,
 				index : this.selectedPointIndex,

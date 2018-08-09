@@ -1,19 +1,11 @@
-function getMousePos(evt) {
-	let canvas = document.getElementById("canvas");
-    let rect = canvas.getBoundingClientRect();
-    return [(evt.clientX - rect.left) / canvas.width * 2 -1, 
-    		(evt.clientY - rect.top) / canvas.height * -2 + 1];
-}
-
 class PathManager2D {
 	//listens for user input
 	//creates Line objects
 
-	constructor(gl){
+	constructor(){
 		var __tempLines = [];
 		var __tempLineCount = 0;
-		this.lineRenderer = new LineRenderer(gl);
-		paintgl.ArtManagers.CanvasManager.renderer.addRenderer(this.lineRenderer);
+		this.lineRenderer = new LineRenderer();
 	
 		var __handle = 0;
 		var __committedHandles = [];
@@ -63,7 +55,16 @@ class PathManager2D {
 		}
 	}
 
-	init(){
+	init(paintgl){
+		
+	}
+
+	postInit(paintgl){
+		paintgl.Engine.RenderingEngine2D.addRenderer(this.lineRenderer);
+
+	}
+
+	start(){
 		this.lineRenderer.setLineColor(1.0, 0.0, 0.0, 1.0);
 	}
 

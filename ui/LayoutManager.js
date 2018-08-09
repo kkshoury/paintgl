@@ -5,9 +5,17 @@ class LayoutManager{
 
 	init(){
 		// this.setupTopRibbon();
-		let _layout = CONFIG.LAYOUT.RIBBON.TOOLBAR["UI_TOOLBAR"];
-		let _tools = CONFIG.TOOLS;
-		let toolbar = React.createElement(Toolbar, {className: "ribbonContainer", id: "toolbar", name: "Tools", 
+		
+	}
+
+  start(){
+    this.drawUI();
+  }
+
+  drawUI(){
+    let _layout = CONFIG.LAYOUT.RIBBON.TOOLBAR["UI_TOOLBAR"];
+    let _tools = CONFIG.TOOLS;
+    let toolbar = React.createElement(Toolbar, {className: "ribbonContainer", id: "toolbar", name: "Tools", 
                 handleClick : setLine, items: _layout, itemProps: _tools});
 
     let _colorLayout = CONFIG.LAYOUT.RIBBON.TOOLBAR["UI_COLOR_BAR"];
@@ -16,10 +24,8 @@ class LayoutManager{
                   itemProps: _colors});
 
     let div = React.createElement("div", null, toolbar, colorBar);
-		ReactDOM.render(div, document.getElementById("top"));
-
-
-	}
+    ReactDOM.render(div, document.getElementById("top"));
+  }
 	
 
 	// setupTopRibbon(){}
@@ -218,7 +224,7 @@ class Color extends React.Component {
       this.setState({
         checked : !this.state.checked
       });     
-      paintgl.ArtManagers.PathManager2D.setLineColor(this.props.r/255.0, this.props.g / 255.0, this.props.b / 255.0, 1.0);
+      paintgl.ArtManagers2D.PathManager2D.setLineColor(this.props.r/255.0, this.props.g / 255.0, this.props.b / 255.0, 1.0);
    }
 
   render() {

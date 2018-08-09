@@ -1,4 +1,4 @@
-class MasterRenderer {
+class PaintingArtListener {
 	constructor(gl){
 		this.renderers = [];
 		this.gl = gl;

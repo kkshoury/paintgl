@@ -12,35 +12,43 @@
 
       <script type="text/javascript" src = "app.js"></script>
       <script type="text/javascript" src = "CanvasManager.js"></script>
+      <script type="text/javascript" src = "SceneManager.js"></script>
       
       <script type="text/javascript" src = "webgl/LineRenderer.js"></script>
       <script type="text/javascript" src = "webgl/MasterRenderer.js"></script>
       <script type="text/javascript" src = "webgl/ControlPointRenderer.js"></script>
+      <script type="text/javascript" src = "webgl/ContextManager.js"></script>
       
       <script type="text/javascript" src = "tools/ToolManager.js"></script>
       <script type="text/javascript" src = "tools/LineTool.js"></script>
       <script type="text/javascript" src = "tools/RectangleTool.js"></script>
       <script type="text/javascript" src = "tools/PolygonTool.js"></script>
       
+      <script type="text/javascript" src = "graphics/PaintGLRenderingEngine.js"></script>
+      
       <script type="text/javascript" src = "art/PathManager.js"></script>
       
       <script type="text/javascript" src = "shaders/Shaders.js"></script>
 
-      <script type="text/javascript" src = "io/MouseInputManager.js"></script>
+      <script type="text/javascript" src = "io/MouseEventEmitter.js"></script>
       
       <script type="text/javascript" src = "common/ControlPointManager.js"></script>
+      <script type="text/javascript" src = "common/EventEmitter.js"></script>
       
       <script type="text/javascript" src = "ui/LayoutManager.js"></script>
       
       <script type="text/javascript" src = "config/colors.js"></script>
       <script type="text/javascript" src = "config/layout.js"></script>
       <script type="text/javascript" src = "config/tools.js"></script>
+      <script type="text/javascript" src = "config/settings.js"></script>
+      <script type="text/javascript" src = "config/start.js"></script>
+      <script type="text/javascript" src = "config/events.js"></script>
       
       <link rel="stylesheet" type="text/css" href="css/style.css">
 
   </head>
 
-  <body onload = "paintgl.start()">
+  <body onload = "paintgl.start(CONFIG)">
         <div id = "menu">
          <div style="padding-left: 1px; padding-right: 1px"> </div>
          <div class="selectedMenuItem"> 2D </div>

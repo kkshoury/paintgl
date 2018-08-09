@@ -1,14 +1,10 @@
 function setMousePositionFromEvent(e, destination, startIndex){
-	let canvas = document.getElementById("canvas");
-    let rect = canvas.getBoundingClientRect();
-    destination[startIndex] =(e.clientX - rect.left) / canvas.width * 2 -1; 
-    destination[startIndex + 1] = (e.clientY - rect.top) / canvas.height * -2 + 1;
+    destination[startIndex] = e.clipX; 
+    destination[startIndex + 1] = e.clipY;
     return destination;
 }
 
 function setMousePositionFast(x, y, destination, startIndex){
-	let canvas = document.getElementById("canvas");
-    let rect = canvas.getBoundingClientRect();
     destination[startIndex] = x; 
     destination[startIndex + 1] =  y;
     return destination;
@@ -24,12 +20,14 @@ class PolygonTool{
 		this.inEditMode = false;
 		this.handle = null;
 		this.mouseDidntMove = false;
+		this.pathManager = null;
+		this.controlPointsManager = null;
 		
 		
 	}
 
-	init(){
-		this.pathManager = paintgl.ArtManagers.PathManager2D;
+	init(paintgl){
+		this.pathManager = paintgl.ArtManagers2D.PathManager2D;
 		this.controlPointsManager = paintgl.ControlManagers.ControlPointManager;
 	}
 
@@ -37,15 +35,17 @@ class PolygonTool{
 		this.mouseIsDown = true;
 		this.mouseDidntMove = true;
 		if(this.inEditMode){
-			let p = getMousePos(e);
-			let index = this.controlPointsManager.checkSelectedPoint(p);
+			let mx = e.clipX;
+			let my = e.clipY;
+
+			let index = this.controlPointsManager.checkSelectedPoint([mx, my]);
 			if(index == -1){
 				this.inEditMode = false;
 				this.pathManager.commitLine(this.handle);
 				this.pathManager.removeTempLines();
 				this.controlPointsManager.unregisterListener(this);
 				this.controlPointsManager.clearControlPoints();
-				paintgl.ArtManagers.CanvasManager.refresh();
+				paintgl.Engine.RenderingEngine2D.refresh();
 				this.vertexCount = 0;
 
 				this.line = setMousePositionFromEvent(e, this.line, 0);
@@ -65,7 +65,7 @@ class PolygonTool{
 				);
 
 		}
-		paintgl.ArtManagers.CanvasManager.refresh();
+		paintgl.Engine.RenderingEngine2D.refresh();
 
 		this.controlPointsManager.unregisterListener(this);
 	}
@@ -97,7 +97,7 @@ class PolygonTool{
 
 		}
 
-		paintgl.ArtManagers.CanvasManager.refresh();
+		paintgl.Engine.RenderingEngine2D.refresh();
 	}
 
 	onDoubleClick(e){
@@ -131,7 +131,7 @@ class PolygonTool{
 			this.controlPointsManager.registerControlPoint(i +1, [this.line[i*2], this.line[i*2 + 1]]);
 		}
 
-		paintgl.ArtManagers.CanvasManager.refresh();
+		paintgl.Engine.RenderingEngine2D.refresh();
 
 	}
 
@@ -167,7 +167,7 @@ class PolygonTool{
 		this.pathManager.removeTempLines();
 		this.controlPointsManager.unregisterListener(this);
 		this.controlPointsManager.clearControlPoints();
-		paintgl.ArtManagers.CanvasManager.refresh();
+		paintgl.Engine.RenderingEngine2D.refresh();
 		this.mouseIsDown = false;
 		this.vertexCount = 0;
 	}
@@ -203,7 +203,7 @@ class PolygonTool{
 				this.controlPointsManager.registerControlPoint(i+1, [this.line[i*2], this.line[i*2 + 1]]);
 			}
 
-			paintgl.ArtManagers.CanvasManager.refresh();
+			paintgl.Engine.RenderingEngine2D.refresh();
 
 		}
 		else if(e.type === this.controlPointsManager.CONTROL_POINT_SELECTED_EVENT){

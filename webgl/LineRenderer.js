@@ -3,12 +3,7 @@ class LineRenderer {
 	constructor(gl){
 		this.temp = [];
 		this.points = [];
-		this.buffer = gl.createBuffer();
-		this.program  = Shaders.createProgram(gl);
-		this.__aPosition = gl.getAttribLocation(this.program, "a_position");
-		this.__uColor = gl.getUniformLocation(this.program, "u_color");
 		this.lineColor = [0.0, 0.0, 0.0, 1.0];
-		gl.enableVertexAttribArray(this.__aPosition);
 		
 
 	}
@@ -42,20 +37,24 @@ class LineRenderer {
 	}
 
 	render(gl){
-		gl.useProgram(this.program);
+		let program  = Shaders.createProgram(gl);
+		gl.useProgram(program);
+		let aPosition = gl.getAttribLocation(program, "a_position");
+		let uColor = gl.getUniformLocation(program, "u_color");
+		gl.enableVertexAttribArray(aPosition);
+		gl.uniform4fv(uColor, new Float32Array(this.lineColor));
 		
-		gl.uniform4fv(this.__uColor, new Float32Array(this.lineColor));
-
-		gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
-		gl.vertexAttribPointer(this.__aPosition, 2, gl.FLOAT, false, 0, 0);
-
+		let buffer = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+		
 		let data = this.points;
 		if(this.temp.length > 0){
 			data = data.concat(this.temp);
 		}
 
 		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.DYNAMIC_DRAW);
-		
+		gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 0, 0);
+
 		gl.drawArrays(gl.LINES, 0, (data.length) / 2);
 	}
 

@@ -1,14 +1,10 @@
 function setMousePositionFromEvent(e, destination, startIndex){
-	let canvas = document.getElementById("canvas");
-    let rect = canvas.getBoundingClientRect();
-    destination[startIndex] =(e.clientX - rect.left) / canvas.width * 2 -1; 
-    destination[startIndex + 1] = (e.clientY - rect.top) / canvas.height * -2 + 1;
+    destination[startIndex] = e.clipX; 
+    destination[startIndex + 1] = e.clipY;
     return destination;
 }
 
 function setMousePositionFast(x, y, destination, startIndex){
-	let canvas = document.getElementById("canvas");
-    let rect = canvas.getBoundingClientRect();
     destination[startIndex] = x; 
     destination[startIndex + 1] =  y;
     return destination;
@@ -27,7 +23,7 @@ class RectangleTool{
 	}
 
 	init(){
-		this.pathManager = paintgl.ArtManagers.PathManager2D;
+		this.pathManager = paintgl.ArtManagers2D.PathManager2D;
 		this.controlPointsManager = paintgl.ControlManagers.ControlPointManager;
 	}
 
@@ -35,15 +31,17 @@ class RectangleTool{
 		this.mouseIsDown = true;
 		this.mouseHasNotMoved = true;
 		if(this.inEditMode){
-			let p = getMousePos(e);
-			let index = this.controlPointsManager.checkSelectedPoint(p);
+			let mx = e.clipX;
+			let my = e.clipY;
+
+			let index = this.controlPointsManager.checkSelectedPoint([mx, my]);
 			if(index == -1){
 				this.inEditMode = false;
 				this.pathManager.commitLine(this.handle);
 				this.pathManager.removeTempLines();
 				this.controlPointsManager.unregisterListener(this);
 				this.controlPointsManager.clearControlPoints();
-				paintgl.ArtManagers.CanvasManager.refresh();
+				paintgl.Engine.RenderingEngine2D.refresh();
 
 				this.line = setMousePositionFromEvent(e, this.line, 0);
 			}
@@ -88,7 +86,7 @@ class RectangleTool{
 			brightx, brighty, bleftx, blefty
 			);
 
-		paintgl.ArtManagers.CanvasManager.refresh();
+		paintgl.Engine.RenderingEngine2D.refresh();
 	}
 
 	onMouseUp(e){
@@ -124,7 +122,7 @@ class RectangleTool{
 			this.controlPointsManager.registerControlPoint(8, [(brightx + trightx) / 2,  (brighty + trighty)/2]);
 			
 
-			paintgl.ArtManagers.CanvasManager.refresh();
+			paintgl.Engine.RenderingEngine2D.refresh();
 
 
 		}
@@ -151,7 +149,7 @@ class RectangleTool{
 		this.pathManager.removeTempLines();
 		this.controlPointsManager.unregisterListener(this);
 		this.controlPointsManager.clearControlPoints();
-		paintgl.ArtManagers.CanvasManager.refresh();
+		paintgl.Engine.RenderingEngine2D.refresh();
 		this.mouseIsDown = false;
 	}
 
@@ -163,7 +161,7 @@ class RectangleTool{
 			// this.pathManager.removeTempLines();
 			// this.controlPointsManager.unregisterListener(this);
 			// this.controlPointsManager.clearControlPoints();
-			// paintgl.ArtManagers.CanvasManager.refresh();
+			// paintgl.Engine.RenderingEngine2D.refresh();
 
 			// log("starting new temp line");
 			// this.line = setMousePositionFast(e.mousePosition[0], e.mousePosition[1], this.line, 0);
@@ -221,7 +219,7 @@ class RectangleTool{
 			this.controlPointsManager.registerControlPoint(7, [(tleftx + trightx) / 2,  (tlefty + trighty)/2]);
 			this.controlPointsManager.registerControlPoint(8, [(brightx + trightx) / 2,  (brighty + trighty)/2]);
 
-			paintgl.ArtManagers.CanvasManager.refresh();
+			paintgl.Engine.RenderingEngine2D.refresh();
 
 		}
 		else if(e.type === this.controlPointsManager.CONTROL_POINT_SELECTED_EVENT){
