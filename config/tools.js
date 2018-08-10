@@ -22,10 +22,11 @@ CONFIG.TOOLS = CONFIG.TOOLS || {
 	"tool-linestrip":
 	 {		
 		name: "tool-linestrip",
+		toolClass: "2D_LINESTRIP_TOOL",
 		icon_16: "resources/icons/tool-linestrip-16.png",
 		icon_32: "resources/icons/tool-linestrip-32.png",
 		load: true,
-		enabled: false
+		enabled: true
 	},
 	"tool-polygon":
 	 {		

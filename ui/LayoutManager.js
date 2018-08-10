@@ -187,7 +187,8 @@ class Tool extends React.Component {
         checked : !this.state.checked
       });
 
-    	paintgl.ControlManagers.ToolManager.setActiveTool(this.state.toolClass);
+      paintgl.Events.EventEmitter.shout("TOOL_SELECTED", this.state, "UI_TOOLS");
+    	// paintgl.ControlManagers.ToolManager.setActiveTool(this.state.toolClass);
    }
 
   render() {

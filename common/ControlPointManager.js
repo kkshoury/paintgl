@@ -166,7 +166,7 @@ class ControlPointManager {
 			this.setControlPoint(this.selectedPointIndex, p);
 			this.controlPointRenderer.clearControlPoints();
 			this.addPointsToRenderer();
-			paintgl.Engine.RenderingEngine2D.refresh();
+			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 			dlog("fire: control point moved");
 			this.fireEvent({
 				type : this.CONTROL_POINT_MOVED_EVENT,

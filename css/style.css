@@ -67,6 +67,8 @@ canvas {
 	box-shadow: 5px 5px 5px grey;
 	background-color: rgb(255, 255, 255);
 	/*height: auto;*/
+  cursor: crosshair;	
+
 }
 
 #footerbar {
@@ -223,4 +225,7 @@ canvas {
 }
 #tool-redo + label{
 	background-image: url("../resources/icons/tool-redo-32.png");
+}
+
+.module {
 }

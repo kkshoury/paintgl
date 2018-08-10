@@ -6,7 +6,7 @@ var errlog = function(m){
 
 errlog.logErrors = true;
 
-class CanvasManager{
+class WindowGL{
 	constructor(){
 		let __canvas = null;
 

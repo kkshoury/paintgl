@@ -13,11 +13,17 @@ class ToolManager{
 		paintgl.Events.EventEmitter.listen(this.onMouseUp.bind(this), "MOUSE_UP", "GL_WINDOW");
 		paintgl.Events.EventEmitter.listen(this.onMouseMove.bind(this), "MOUSE_MOVE", "GL_WINDOW");
 		paintgl.Events.EventEmitter.listen(this.onDoubleClick.bind(this), "MOUSE_DOUBLE_CLICK", "GL_WINDOW");
+
+		paintgl.Events.EventEmitter.listen((function(toolState){
+			this.setActiveTool(toolState.toolClass);
+		}).bind(this), "TOOL_SELECTED", "UI_TOOLS");
+
 		
 		let lineTool = new LineTool();
 		this.addTool(lineTool);
 		this.addTool(new PolygonTool());
 		this.addTool(new RectangleTool());
+		this.addTool(new LinestripTool());
 
 		Object.values(this.tools).forEach(tool => {tool.init(paintgl)});
 		this.setActiveTool(lineTool.id);

@@ -11,9 +11,9 @@ function setMousePositionFast(x, y, destination, startIndex){
 }
 
 
-class PolygonTool{
+class LinestripTool{
 	constructor(){
-		this.id = "2D_POLYGON_TOOL";
+		this.id = "2D_LINESTRIP_TOOL";
 		this.line = [null, null, null, null, null, null, null, null];
 		this.vertexCount = 0;
 		this.mouseIsDown = false;
@@ -114,12 +114,12 @@ class PolygonTool{
 		}
 		
 		this.pathManager.removeTempLines();
-		for(var i = 0; i < this.vertexCount && this.vertexCount > 1 ; i++){
+		for(var i = 0; i < (this.vertexCount -1) && this.vertexCount > 1 ; i++){
 			this.pathManager.addTempLine(
 				this.line[i*2],
 				this.line[i*2 + 1],
-				this.line[((i+1) % this.vertexCount) * 2],
-				this.line[((i+1) % this.vertexCount) * 2 + 1]
+				this.line[((i+1)) * 2],
+				this.line[((i+1)) * 2 + 1]
 				);
 
 		}
@@ -188,12 +188,12 @@ class PolygonTool{
 			
 
 			this.pathManager.removeTempLines(); //give it id
-			for(var i = 0; i < this.vertexCount; i++){
+			for(var i = 0; i < this.vertexCount - 1; i++){
 				this.pathManager.addTempLine(
 					this.line[i*2],
 					this.line[i*2 + 1],
-					this.line[((i+1) % this.vertexCount) * 2],
-					this.line[((i+1) % this.vertexCount) * 2 + 1]
+					this.line[((i+1)) * 2],
+					this.line[((i+1)) * 2 + 1]
 				);
 
 			}

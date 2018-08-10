@@ -65,7 +65,7 @@ class PathManager2D {
 	}
 
 	start(){
-		this.lineRenderer.setLineColor(1.0, 0.0, 0.0, 1.0);
+		this.lineRenderer.setLineColor(0.0, 0.0, 0.0, 1.0);
 	}
 
 	setLineColor(r, g, b, a){

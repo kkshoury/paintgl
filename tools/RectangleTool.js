@@ -41,7 +41,7 @@ class RectangleTool{
 				this.pathManager.removeTempLines();
 				this.controlPointsManager.unregisterListener(this);
 				this.controlPointsManager.clearControlPoints();
-				paintgl.Engine.RenderingEngine2D.refresh();
+				paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 				this.line = setMousePositionFromEvent(e, this.line, 0);
 			}
@@ -86,7 +86,7 @@ class RectangleTool{
 			brightx, brighty, bleftx, blefty
 			);
 
-		paintgl.Engine.RenderingEngine2D.refresh();
+		paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 	}
 
 	onMouseUp(e){
@@ -122,7 +122,7 @@ class RectangleTool{
 			this.controlPointsManager.registerControlPoint(8, [(brightx + trightx) / 2,  (brighty + trighty)/2]);
 			
 
-			paintgl.Engine.RenderingEngine2D.refresh();
+			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 
 		}
@@ -149,7 +149,7 @@ class RectangleTool{
 		this.pathManager.removeTempLines();
 		this.controlPointsManager.unregisterListener(this);
 		this.controlPointsManager.clearControlPoints();
-		paintgl.Engine.RenderingEngine2D.refresh();
+		paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 		this.mouseIsDown = false;
 	}
 
@@ -161,7 +161,7 @@ class RectangleTool{
 			// this.pathManager.removeTempLines();
 			// this.controlPointsManager.unregisterListener(this);
 			// this.controlPointsManager.clearControlPoints();
-			// paintgl.Engine.RenderingEngine2D.refresh();
+			// paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 			// log("starting new temp line");
 			// this.line = setMousePositionFast(e.mousePosition[0], e.mousePosition[1], this.line, 0);
@@ -219,13 +219,11 @@ class RectangleTool{
 			this.controlPointsManager.registerControlPoint(7, [(tleftx + trightx) / 2,  (tlefty + trighty)/2]);
 			this.controlPointsManager.registerControlPoint(8, [(brightx + trightx) / 2,  (brighty + trighty)/2]);
 
-			paintgl.Engine.RenderingEngine2D.refresh();
+			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 		}
 		else if(e.type === this.controlPointsManager.CONTROL_POINT_SELECTED_EVENT){
 			this.inEditMode = true;
-			log("Control selected");
-			
 		}
 
 	}

@@ -4,8 +4,30 @@ class LineRenderer {
 		this.temp = [];
 		this.points = [];
 		this.lineColor = [0.0, 0.0, 0.0, 1.0];
+		this.programCreated = false;
+		this.aPosition; 
+		this.uColor;
+		this.bufferUnit = new BufferUnit();
 		
 
+	}
+
+	initBuffers(gl){
+		if(!this.bufferUnit.getVertexBuffer()){
+			let buffer = gl.createBuffer();
+			this.bufferUnit.setVertexBuffer(buffer);
+		}
+
+		let vbuffer = this.bufferUnit.getVertexBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, vbuffer);
+		
+		let data = this.points;
+		if(this.temp.length > 0){
+			data = data.concat(this.temp);
+		}
+
+		this.bufferUnit.setVertexData(new Float32Array(data));
+		gl.bufferData(gl.ARRAY_BUFFER, this.bufferUnit.getVertexData(), gl.DYNAMIC_DRAW);
 	}
 
 	setLineColor(r,g,b,a){
@@ -23,6 +45,8 @@ class LineRenderer {
 		for(var i = 0 ; i < arguments.length; i++){
 			this.points.push(arguments[i]);
 		}
+
+		this.bufferUnit.setDirty(true);
 	}
 
 	addTempLine(points){
@@ -30,32 +54,35 @@ class LineRenderer {
 		this.temp.push(points[1]);
 		this.temp.push(points[2]);
 		this.temp.push(points[3]);
+		this.bufferUnit.setDirty(true);
 	}
 
 	removeTempLine(){
 		this.temp = [];
+		this.bufferUnit.setDirty(true);
+
 	}
 
 	render(gl){
-		let program  = Shaders.createProgram(gl);
-		gl.useProgram(program);
-		let aPosition = gl.getAttribLocation(program, "a_position");
-		let uColor = gl.getUniformLocation(program, "u_color");
-		gl.enableVertexAttribArray(aPosition);
-		gl.uniform4fv(uColor, new Float32Array(this.lineColor));
-		
-		let buffer = gl.createBuffer();
-		gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-		
-		let data = this.points;
-		if(this.temp.length > 0){
-			data = data.concat(this.temp);
+		if(!this.programCreated){
+			this.program  = Shaders.createProgram(gl);
+			this.aPosition = gl.getAttribLocation(this.program, "a_position");
+ 			this.uColor = gl.getUniformLocation(this.program, "u_color");
 		}
 
-		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.DYNAMIC_DRAW);
-		gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 0, 0);
+		if(this.bufferUnit.isDirty()){
+			this.initBuffers(gl);
+			this.bufferUnit.setDirty(false);
+		}
 
-		gl.drawArrays(gl.LINES, 0, (data.length) / 2);
+		gl.useProgram(this.program);
+		gl.enableVertexAttribArray(this.aPosition);
+		gl.uniform4fv(this.uColor, new Float32Array(this.lineColor));
+		
+		gl.bindBuffer(gl.ARRAY_BUFFER, this.bufferUnit.getVertexBuffer());
+		gl.vertexAttribPointer(this.aPosition, 2, gl.FLOAT, false, 0, 0);
+
+		gl.drawArrays(gl.LINES, 0, (this.bufferUnit.getVertexData().length) / 2);
 	}
 
 }

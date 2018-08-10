@@ -8,28 +8,29 @@ class PaintGL2DRenderingEngine {
 
 	}
 	init(){
-		this.paintingManager = new PaintGL2DPaintingManager();
+		this.scene = new PaintGLScene2D();
+		this.composer = new SceneComposer2D();
 		this.reinit();
-		this.paintingArtListener = new PaintingArtListener(this.paintingManager.getContext());
 	}
 
-	postInit(){
+	postInit(context){
+		paintgl.Events.EventEmitter.listen(this.refresh.bind(this), "SCENE_CHANGED", "SCENE");
 	}
 
 	start(){
+	
 	}
 
 	reinit(){
-		this.paintingManager.init();
+		this.composer.init();
 	}
 
 	refresh(){
-		this.paintingArtListener.render(this.paintingManager.getContext());
-
+		this.composer.render();
 	}
 
 	addRenderer(renderer){
-		this.paintingArtListener.addRenderer(renderer);
+		this.composer.addRenderer(renderer);
 	}
 
 }

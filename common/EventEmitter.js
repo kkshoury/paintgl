@@ -50,13 +50,16 @@ class EventEmitter {
 			return;
 		}
 
-		if(source){
-			params.eventSource = source;
-		} else {
-			params.eventSource = this.PAINTGL_SOURCE;
-		}
+		if(params){
+			if(source){
+				params.eventSource = source;
+			} else {
+				params.eventSource = this.PAINTGL_SOURCE;
+			}
 
-		params.eventType = eventType;
+			params.eventType = eventType;
+		}
+		
 
 		for(var i = 0; i < listeners.length; i++){
 			let listener = listeners[i];
