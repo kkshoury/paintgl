@@ -19,14 +19,15 @@ class ToolManager{
 		}).bind(this), "TOOL_SELECTED", "UI_TOOLS");
 
 		
-		let lineTool = new LineTool();
-		this.addTool(lineTool);
+		let pentool = new PenTool();
+		this.addTool(pentool);
 		this.addTool(new PolygonTool());
 		this.addTool(new RectangleTool());
 		this.addTool(new LinestripTool());
+		this.addTool(new LineTool());
 
 		Object.values(this.tools).forEach(tool => {tool.init(paintgl)});
-		this.setActiveTool(lineTool.id);
+		this.setActiveTool(pentool.id);
 	}
 
 	start(){

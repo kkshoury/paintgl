@@ -40,6 +40,26 @@ Shaders.createControlPointProgram = function(gl){
 } 
 
 
+Shaders.createSimpleTextureProgram = function(gl){
+  let vs = compileShader(gl, simpleTextureVertexShaderCode, gl.VERTEX_SHADER);
+  let fs = compileShader(gl, simpleTextureFragmentShaderCode, gl.FRAGMENT_SHADER);
+
+  let program = createProgram(gl, vs, fs);
+
+  return program;
+} 
+
+Shaders.createPolygon2DProgram = function(gl){
+  let vs = compileShader(gl, polygonVertexShader, gl.VERTEX_SHADER);
+  let fs = compileShader(gl, polygonFragmentShader, gl.FRAGMENT_SHADER);
+
+  let program = createProgram(gl, vs, fs);
+
+  return program;
+} 
+
+
+
 
 function compileShader(gl, shaderSource, shaderType) {
   // Create the shader object
@@ -89,4 +109,41 @@ let redFragmentShader =
 	"precision mediump float;"
     + "void main() {"
     + 	"gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);"
+    + "}";
+
+let simpleTextureVertexShaderCode =
+      "attribute vec2 a_position;" 
+  +   "attribute vec2 a_texCoord;"
+  +   "varying vec2 v_texCoord;"
+
+  +   "void main() {"
+  +     "gl_Position = vec4(a_position, 0.0, 1.0);"
+  +     "v_texCoord = a_texCoord;"
+  +"}"
+
+  let simpleTextureFragmentShaderCode =     
+     "precision mediump float;"
+    + "varying vec2 v_texCoord;"
+    + "uniform sampler2D u_texture;"
+
+    + "void main() {"
+    +   "gl_FragColor = texture2D(u_texture, v_texCoord);"
+    // +   "gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);"
+    + "}";
+
+
+  let polygonVertexShader = 
+      "attribute vec2 a_position;" 
+  +   "attribute vec4 a_color;"
+  +   "varying vec4 v_color;"
+  +   "void main() {"
+  +     "v_color = u_color;"
+  +     "gl_Position = vec4(a_position, 0.0, 1.0);"
+  +"}"
+
+let polygonFragmentShader =     
+     "precision mediump float;"
+    + "varying vec4 v_color;"
+    + "void main() {"
+    +   "gl_FragColor = v_color;"
     + "}";

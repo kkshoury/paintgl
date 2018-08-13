@@ -14,6 +14,11 @@ class ControlPointManager {
 		this.selectedPointIndex = -1;
 		this.mouseIsDown = false;
 		this.mouseMovedWhileDown = false;
+		this.__tmpEvent = {
+			type: -1,
+			index: -1,
+			p: null
+		}
 
 		//arrays of points (arrays)
 		var _controlPoints = [];
@@ -39,7 +44,7 @@ class ControlPointManager {
 		paintgl.Events.EventEmitter.listen(this.onMouseDown.bind(this), "MOUSE_DOWN", "GL_WINDOW");
 		paintgl.Events.EventEmitter.listen(this.onMouseUp.bind(this), "MOUSE_UP", "GL_WINDOW");
 		paintgl.Events.EventEmitter.listen(this.onMouseMove.bind(this), "MOUSE_MOVE", "GL_WINDOW");
-		paintgl.Engine.RenderingEngine2D.addRenderer(this.controlPointRenderer);
+		paintgl.Engine.RenderingEngine2D.addRenderer(this.controlPointRenderer, 3);
 	}
 
 	registerControlPoint(index, p){
@@ -103,16 +108,16 @@ class ControlPointManager {
 		this.mouseMovedWhileDown = false
 		let mx = e.clipX;
 		let my = e.clipY;
+		let p = [mx, my];
 
-		let index = this.checkSelectedPoint([mx, my]);
+		let index = this.checkSelectedPoint(p);
 		if(index){
 			this.selectedPointIndex = index;
-			
-			dlog("fire: point selected");
-			this.fireEvent({
-				type : this.CONTROL_POINT_SELECTED_EVENT,
-				index : this.selectedPointIndex
-			});
+			this.__tmpEvent.type = this.CONTROL_POINT_MOVED_EVENT;
+			this.__tmpEvent.id = this.selectedPointIndex;
+			this.__tmpEvent.p = p;
+
+			this.fireEvent(this.__tmpEvent);
 
 		} 
 
@@ -133,17 +138,6 @@ class ControlPointManager {
 		this.selectedPointIndex = -1;
 		let mx = e.clipX;
 		let my = e.clipY;
-
-		if(this.mouseMovedWhileDown == false){
-			// dlog("fire: lost control");
-			// this.fireEvent({
-			// 	type: this.LOST_CONTROL_EVENT,
-			// 	mousePosition : p
-			// });
-
-		}
-		
-
 	}
 
 	onMouseMove(e){
@@ -167,12 +161,11 @@ class ControlPointManager {
 			this.controlPointRenderer.clearControlPoints();
 			this.addPointsToRenderer();
 			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
-			dlog("fire: control point moved");
-			this.fireEvent({
-				type : this.CONTROL_POINT_MOVED_EVENT,
-				index : this.selectedPointIndex,
-				point: p
-			});
+			
+			this.__tmpEvent.type = this.CONTROL_POINT_MOVED_EVENT;
+			this.__tmpEvent.index = this.selectedPointIndex;
+			this.__tmpEvent.p = p;
+			this.fireEvent(this.__tmpEvent);
 		}
 
 	}

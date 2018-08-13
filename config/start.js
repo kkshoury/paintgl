@@ -38,6 +38,11 @@ CONFIG.STARTUP.INIT = function(){
 		"Engine" : {
 			"RenderingEngine2D" : PaintGL2DRenderingEngine
 			
+		},
+
+		"Advanced2D": {
+			"RasterLayerManager": RasterLayerManager
+
 		}
 
 

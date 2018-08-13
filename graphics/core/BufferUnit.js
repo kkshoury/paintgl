@@ -35,6 +35,23 @@ class BufferUnit{
 		this.vertexBuffer = glbuffer;
 	}
 
+
+	setTexCoordData(float32array){
+		this.texCoordData = float32array;
+		this.dirty = true;
+	}
+
+	getTexCoordData(){
+		return this.texCoordData;
+	}
+	getTexCoordBuffer(){
+		return this.texCoordBuffer;
+	}
+
+	setTexCoordBuffer(glbuffer){
+		this.texCoordBuffer = glbuffer;
+	}
+
 	setDirty(bool){
 		this.dirty = bool;
 	}

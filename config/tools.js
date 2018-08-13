@@ -112,10 +112,11 @@ CONFIG.TOOLS = CONFIG.TOOLS || {
 	"tool-pen":
 	 {		
 		name: "tool-pen",
+		toolClass: "2D_PEN_TOOL",
 		icon_16: "resources/icons/tool-pen-16.png",
 		icon_32: "resources/icons/tool-pen-32.png",
 		load: true,
-		enabled: false
+		enabled: true
 	}
 
 };

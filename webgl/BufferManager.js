@@ -1,4 +1,4 @@
-class BufferManager(){
+class BufferManager{
 	constructor(){
 		
 	}

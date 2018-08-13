@@ -37,7 +37,7 @@ class RectangleTool{
 			let index = this.controlPointsManager.checkSelectedPoint([mx, my]);
 			if(index == -1){
 				this.inEditMode = false;
-				this.pathManager.commitLine(this.handle);
+				this.pathManager.commitPathToLayer(this.handle);
 				this.pathManager.removeTempLines();
 				this.controlPointsManager.unregisterListener(this);
 				this.controlPointsManager.clearControlPoints();
@@ -145,7 +145,7 @@ class RectangleTool{
 
 	commit(){
 		this.inEditMode = false;
-		this.pathManager.commitLine();
+		this.pathManager.commitPathToLayer();
 		this.pathManager.removeTempLines();
 		this.controlPointsManager.unregisterListener(this);
 		this.controlPointsManager.clearControlPoints();
@@ -157,7 +157,7 @@ class RectangleTool{
 
 		if(e.type === this.controlPointsManager.LOST_CONTROL_EVENT){
 			// this.inEditMode = false;
-			// this.pathManager.commitLine(this.handle);
+			// this.pathManager.commitPathToLayer(this.handle);
 			// this.pathManager.removeTempLines();
 			// this.controlPointsManager.unregisterListener(this);
 			// this.controlPointsManager.clearControlPoints();

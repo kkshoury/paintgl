@@ -28,11 +28,14 @@ class WindowGL{
 				__canvas.width = w;
 				__canvas.height = h;
 				__canvas.id = "canvas";
+
+				this.width = w;
+				this.height = h;
 				
 				this.contextFactory.setContextSource(__canvas);
 				this.mouseEventEmitter = new MouseEventEmitter(__canvas, "GL_WINDOW");
 				let gl = this.contextFactory.getWebGLContext(__canvas);
-				gl.viewport(0, 0, __canvas.width, __canvas.height);
+				gl.viewport(0, 0, w, h);
 				
 				parent.append(__canvas);
 				return true;

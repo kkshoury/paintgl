@@ -40,7 +40,7 @@ class LineTool{
 			let index = this.controlPointsManager.checkSelectedPoint([mx, my]);
 			if(index == -1){
 				this.inEditMode = false;
-				this.pathManager.commitLine(this.handle);
+				this.pathManager.commitPathToLayer(this.handle);
 				this.pathManager.removeTempLines();
 				this.controlPointsManager.unregisterListener(this);
 				this.controlPointsManager.clearControlPoints();
@@ -121,7 +121,7 @@ class LineTool{
 	}
 
 	commit(){
-		this.pathManager.commitLine(this.handle);
+		this.pathManager.commitPathToLayer(this.handle);
 		this.pathManager.removeTempLines();
 		this.controlPointsManager.unregisterListener(this);
 		this.controlPointsManager.clearControlPoints();

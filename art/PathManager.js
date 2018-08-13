@@ -40,7 +40,7 @@ class PathManager2D {
 			this.lineRenderer.removeTempLine();
 		}
 
-		this.commitLine = function(){
+		this.commitPathToLayer = function(){
 			for(var i = 0; i < __tempLines.length; i+=4){
 			this.lineRenderer.addLine(
 				__tempLines[i],
@@ -52,6 +52,11 @@ class PathManager2D {
 
 			__tempLines = [];
 			__handle = 0;
+
+			this.lineRenderer.target = this.fb.id;
+			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+			this.lineRenderer.target = null;
+			this.lineRenderer.clearLines();
 		}
 	}
 
@@ -60,7 +65,13 @@ class PathManager2D {
 	}
 
 	postInit(paintgl){
-		paintgl.Engine.RenderingEngine2D.addRenderer(this.lineRenderer);
+		let layer = paintgl.Advanced2D.RasterLayerManager.orderedLayers[0];
+		this.fb = new FrameBuffer({
+			"textureId" : layer.texture.id, 
+			"texWidth": layer.texture.width,
+			"texHeight": layer.texture.height
+		});
+		paintgl.Engine.RenderingEngine2D.addRenderer(this.lineRenderer, 1);
 
 	}
 
@@ -70,7 +81,7 @@ class PathManager2D {
 
 	setLineColor(r, g, b, a){
 		this.lineRenderer.setLineColor(r, g, b, a);
-
+		paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 	}
 
 }

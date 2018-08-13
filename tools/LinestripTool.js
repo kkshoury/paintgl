@@ -41,7 +41,7 @@ class LinestripTool{
 			let index = this.controlPointsManager.checkSelectedPoint([mx, my]);
 			if(index == -1){
 				this.inEditMode = false;
-				this.pathManager.commitLine(this.handle);
+				this.pathManager.commitPathToLayer(this.handle);
 				this.pathManager.removeTempLines();
 				this.controlPointsManager.unregisterListener(this);
 				this.controlPointsManager.clearControlPoints();
@@ -163,7 +163,7 @@ class LinestripTool{
 
 	commit(){
 		this.inEditMode = false;
-		this.pathManager.commitLine();
+		this.pathManager.commitPathToLayer();
 		this.pathManager.removeTempLines();
 		this.controlPointsManager.unregisterListener(this);
 		this.controlPointsManager.clearControlPoints();

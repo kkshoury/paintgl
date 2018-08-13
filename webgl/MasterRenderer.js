@@ -1,9 +1,9 @@
 class SceneComposer2D {
 	constructor(){
-		this.renderers = [];
+		this.renderers = [[]];
 		this.window = new WindowGL();
 		this.textureManager = new TextureManager2D();
-		// this.bufferManager = new BufferManager();
+		this.fbManager = new FrameBufferManager(this.textureManager);
 
 	}
 
@@ -22,20 +22,43 @@ class SceneComposer2D {
 		}
 	}
 
-	addRenderer(renderer){
+	addRenderer(renderer, pass){
 		if(renderer){
-			this.renderers.push(renderer);
+			if(!pass){
+				pass = 0;
+			}
+
+			if(!this.renderers[pass]){
+				this.renderers[pass] = [];
+			}
+
+			this.renderers[pass].push(renderer);
 		}
 	}
 
-	render(){
-		window.requestAnimationFrame((function(){
-			this.gl.clearColor(1, 1, 1, 1);
-			this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-			this.renderers.forEach((r) => {
-				r.render(this.gl);
+	step(time){
+		this.gl.clearColor(1, 1, 1, 1);
+		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+		this.renderers.forEach((pass) => {
+			pass.forEach(r =>{
+				if(r.on){
+					let tex;
+					if(r.input){
+						tex = this.textureManager.getTexture2D(this.gl, r.input);
+					}
+					if(r.target){
+						this.fbManager.bind(this.gl, r.target);
+						r.render(this.gl, tex);
+						this.fbManager.bind(this.gl, null);
+					}
+					else {
+						this.gl.viewport(0, 0, this.window.width, this.window.height);
+						r.render(this.gl, tex);
+					}					
+				}
 			});
-		}).bind(this));
+			
+		});
 		
 	}
 

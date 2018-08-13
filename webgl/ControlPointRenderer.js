@@ -6,6 +6,8 @@ class ControlPointRenderer {
 		this.programCreated = false;
 		this.aPosition; 
 		this.bufferUnit = new BufferUnit();
+		// this.on = false;
+		
 
 	}
 
@@ -42,6 +44,10 @@ class ControlPointRenderer {
 	}
 
 	render(gl){
+		if(this.points.length == 0){
+			return;
+		}
+		
 		if(!this.programCreated){
 			this.program  = Shaders.createControlPointProgram(gl);
 			this.aPosition = gl.getAttribLocation(this.program, "a_position");

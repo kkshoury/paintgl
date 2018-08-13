@@ -8,8 +8,7 @@ class LineRenderer {
 		this.aPosition; 
 		this.uColor;
 		this.bufferUnit = new BufferUnit();
-		
-
+		// this.on = false;
 	}
 
 	initBuffers(gl){
@@ -28,6 +27,13 @@ class LineRenderer {
 
 		this.bufferUnit.setVertexData(new Float32Array(data));
 		gl.bufferData(gl.ARRAY_BUFFER, this.bufferUnit.getVertexData(), gl.DYNAMIC_DRAW);
+
+	}
+
+	clearLines(){
+		this.temp = [];
+		this.points = [];
+		this.bufferUnit.setDirty(true);
 	}
 
 	setLineColor(r,g,b,a){
@@ -63,7 +69,11 @@ class LineRenderer {
 
 	}
 
-	render(gl){
+	render(gl, tex){
+		if(this.points.length == 0 && this.temp.length == 0){
+			return;
+		}
+
 		if(!this.programCreated){
 			this.program  = Shaders.createProgram(gl);
 			this.aPosition = gl.getAttribLocation(this.program, "a_position");
