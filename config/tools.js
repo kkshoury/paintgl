@@ -64,6 +64,7 @@ CONFIG.TOOLS = CONFIG.TOOLS || {
 	"tool-eraser":
 	 {		
 		name: "tool-eraser",
+		toolClass : "2D_ERASER_TOOL",
 		icon_16: "resources/icons/tool-eraser-16.png",
 		icon_32: "resources/icons/tool-eraser-32.png",
 		load: true,

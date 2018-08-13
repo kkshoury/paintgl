@@ -11,7 +11,7 @@ class MeshRenderer2D {
 		this.on = on;
 
 
-		initProgram(gl){
+		function initProgram(gl){
 			program = Shaders.createPolygon2DProgram();
 
 			if(!program){
@@ -25,7 +25,7 @@ class MeshRenderer2D {
 		}
 
 
-		initBuffers(gl){
+		function initBuffers(gl){
 			let vBuffer;
 			if(!bufferUnit.getVertexBuffer()){
 		 		vBuffer = gl.createBuffer();
@@ -48,7 +48,7 @@ class MeshRenderer2D {
 		}
 
 
-		this.render(gl, input){
+		this.render = function(gl, input){
 			if(!programCreated){
 				programCreated = initProgram(gl);
 				if(programCreated != true){

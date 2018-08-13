@@ -16,12 +16,14 @@ class BufferUnit{
 		this.texCoordBuffer = null;
 
 		this.dirty = true;
-
+		paintgl.Events.EventEmitter.shout("BUFFER_UNIT_CREATED", this, "BUFFERS");
 	}
 
 	setVertexData(float32array){
 		this.vertexData = float32array;
 		this.dirty = true;
+		paintgl.Events.EventEmitter.shout("BUFFER_UNIT_CHANGED", this, "BUFFERS");
+
 	}
 
 	getVertexData(){
@@ -39,6 +41,8 @@ class BufferUnit{
 	setTexCoordData(float32array){
 		this.texCoordData = float32array;
 		this.dirty = true;
+		paintgl.Events.EventEmitter.shout("BUFFER_UNIT_CHANGED", this, "BUFFERS");
+		
 	}
 
 	getTexCoordData(){

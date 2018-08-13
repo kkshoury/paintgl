@@ -6,13 +6,20 @@ class PaintGL2DRenderingEngine {
 
 	}
 
-	preinit(){
-
+	preInitConfiguration(config){
+		this.config = {
+			w: config.SETTINGS.GRAPHICS.canvasWidth,
+			h: config.SETTINGS.GRAPHICS.canvasHeight,
+			bg: config.SETTINGS.GRAPHICS.backgroundColor,
+			canvasId: config.SETTINGS.GRAPHICS.canvasId,
+			canvasParent : config.SETTINGS.GRAPHICS.canvasParent
+		};
 	}
-	init(){
-		this.scene = new PaintGLScene2D();
-		this.composer = new SceneComposer2D();
-		this.reinit();
+
+	init(context){
+		this.scene = new PaintGLScene2D(this.config);
+		this.composer = new SceneComposer2D(this.config);
+		this.composer.init(this.config);
 	}
 
 	postInit(context){
@@ -29,12 +36,11 @@ class PaintGL2DRenderingEngine {
 	}
 
 	reinit(){
-		this.composer.init();
 	}
 
 	update(){
 		let start = Date.now();
-		this.composer.step();
+		this.composer.step(this.scene);
 		let ms = (Date.now() - start);
 
 	}

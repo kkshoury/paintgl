@@ -46,8 +46,8 @@ function init(config){
 		paintgl[ucs] = paintgl[ucs] || {};
 		Object.keys(initManagers[ucs]).forEach(contextObjectKey => {
 			(paintgl[ucs])[contextObjectKey] = new (initManagers[ucs])[contextObjectKey]();
-			if((paintgl[ucs])[contextObjectKey].preInit){
-				(paintgl[ucs])[contextObjectKey].preInit();
+			if((paintgl[ucs])[contextObjectKey].preInitConfiguration){
+				(paintgl[ucs])[contextObjectKey].preInitConfiguration(config);
 			}
 		})
 	});

@@ -14,8 +14,8 @@ class SceneComposer2D {
 		}
 	}
 
-	init(){
-		let res = this.window.initCanvas("canvas", document, "maindiv", 800, 600);
+	init(config){
+		let res = this.window.initCanvas(config.canvasId, document, config.canvasParent, config.w, config.h);
 		this.gl = this.window.getContext();
 		if(!res){
 			log("Could not init canvas");
@@ -36,24 +36,28 @@ class SceneComposer2D {
 		}
 	}
 
-	step(time){
-		this.gl.clearColor(1, 1, 1, 1);
-		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+	step(scene, time){
+		let gl = this.gl;
+		let bg = scene.backgroundColor;
+
+		gl.clearColor(bg[0], bg[1], bg[2], bg[3]);
+		gl.clear(gl.COLOR_BUFFER_BIT);
 		this.renderers.forEach((pass) => {
 			pass.forEach(r =>{
 				if(r.on){
 					let tex;
 					if(r.input){
-						tex = this.textureManager.getTexture2D(this.gl, r.input);
+						tex = this.textureManager.getTexture2D(gl, r.input);
 					}
 					if(r.target){
-						this.fbManager.bind(this.gl, r.target);
-						r.render(this.gl, tex);
-						this.fbManager.bind(this.gl, null);
+						this.fbManager.bind(gl, r.target);
+						r.render(gl, tex);
+						this.fbManager.bind(gl, null);
 					}
 					else {
-						this.gl.viewport(0, 0, this.window.width, this.window.height);
-						r.render(this.gl, tex);
+						let vp = scene.viewportDim;
+						gl.viewport(vp[0], vp[1], vp[2], vp[3]);
+						r.render(gl, tex);
 					}					
 				}
 			});

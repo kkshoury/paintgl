@@ -4,7 +4,7 @@ class EventEmitter {
 		this.PAINTGL_SOURCE = "PAINTGL";
 	}
 
-	preInit(){
+	preInitConfiguration(){
 		this.events[this.PAINTGL_SOURCE] = [];
 
 		let aliases = Object.keys(CONFIG.EVENTS.SOURCE_ALIAS);
@@ -40,10 +40,14 @@ class EventEmitter {
 		let listeners;
 
 		if(source){
-		 	listeners = this.events[source][eventType];
+			if(this.events[source] && this.events[source][eventType]){
+		 		listeners = this.events[source][eventType];
+			}
 		}
 		else{
-		 	listeners = this.events[this.PAINTGL_SOURCE][eventType];
+			if(this.events[this.PAINTGL_SOURCE][eventType]){
+		 		listeners = this.events[this.PAINTGL_SOURCE][eventType];
+			}
 		}	
 
 		if(!listeners || listeners.length == 0){

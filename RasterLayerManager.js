@@ -4,7 +4,7 @@ class RasterLayerManager{
 		this.orderedLayers = [];
 	}
 
-	preInit(){
+	preInitConfiguration(){
 
 	}
 
