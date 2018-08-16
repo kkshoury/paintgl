@@ -51,6 +51,10 @@ class ToolManager{
 		
 		if(this.activeTool != null){
 			this.activeTool.commit();
+
+			if(this.activeTool.stop){
+				this.activeTool.stop();
+			}
 		}
 
 		this.activeTool = this.tools[toolId];

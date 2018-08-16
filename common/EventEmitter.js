@@ -2,6 +2,7 @@ class EventEmitter {
 	constructor(){
 		this.events = {};
 		this.PAINTGL_SOURCE = "PAINTGL";
+		this.kbe;
 	}
 
 	preInitConfiguration(){
@@ -22,7 +23,7 @@ class EventEmitter {
 	}
 
 	start(context){
-
+		this.kbe = new KeyboardEventEmitter(window, "USER_KEY_INPUT"); 
 	}
 
 	listen(handler, eventType, eventSource){

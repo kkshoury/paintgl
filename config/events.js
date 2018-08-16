@@ -9,7 +9,8 @@ CONFIG.EVENTS.SOURCE_ALIAS = {
 	"SCENE": true,
 	"LAYERS": true,
 	"ADVANCED2D": true,
-	"GRAPHICS_ENGINE": true
+	"GRAPHICS_ENGINE": true,
+	"USER_KEY_INPUT": true
 };
 
 

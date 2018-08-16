@@ -19,15 +19,16 @@ class BrushTool{
 		this.mouseHasNotMoved = false;
 		this.sampleCount = 0;
 		this.brushColor = [0.0, 0.0, 0.0, 1.0];
+		this.brushSize = 1;
 	}
 
 	init(){
 		// this.pathManager = paintgl.ArtManagers2D.PathManager2D;
 		this.shape = new RectangleGeometry2D();
-		this.shape.setDimensions(0, 0, 0.1, 0.1);
+		this.shape.setDimensions(0, 0, this.brushSize * 0.03, this.brushSize * 0.03 * 600/800.0);
 		this.renderer = new MeshRenderer2D();
 		this.lineRenderer = new LineRenderer();
-
+		paintgl.Events.EventEmitter.listen(this.keyPressed.bind(this), "KEY_DOWN", "USER_KEY_INPUT");
 		paintgl.Events.EventEmitter.listen(this.setColor.bind(this),
 			"COLOR_CHANGED", 
 			"UI");
@@ -38,6 +39,43 @@ class BrushTool{
     	
 	}
 
+	keyPressed(e){
+		if(e.key === paintgl.Keyboard.MINUS){
+			this.decrementBrushSize();
+			this.shape.setDimensions(0, 0, this.brushSize * 0.03, this.brushSize * 0.03 * 600/800.0);
+			if(this.brushModel){
+				this.brushModel.update();
+			}
+			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+
+		}
+
+		if(e.key === paintgl.Keyboard.PLUS){
+			this.increamentBrushSize();
+			this.shape.setDimensions(0, 0, this.brushSize * 0.03, this.brushSize * 0.03 * 600/800.0);
+			if(this.brushModel){
+				this.brushModel.update();
+			}
+			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+
+		}
+	}
+	increamentBrushSize(){
+		if(this.brushSize >= 10){
+			this.brushSize = 10;
+			return;
+		}
+
+		this.brushSize++;
+	}
+
+	decrementBrushSize(){
+		if(this.brushSize <= 1){
+			this.brushSize = 1;
+			return;
+		}
+		this.brushSize--;
+	}
 	setColor(c){
 		if(this.sweepModel){
 			this.sweepModel.setColor(c);
@@ -84,6 +122,10 @@ class BrushTool{
 		this.brushModel.setRenderer(this.renderer);
 		paintgl.Engine.RenderingEngine2D.addRenderer(this.renderer, 2);
 
+
+	}
+
+	stop(){
 
 	}
 

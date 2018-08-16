@@ -94,6 +94,10 @@ class Model{
 	}
 
 	setRenderer(renderer){
+		if(renderer == null){
+			this.__renderer.removeModels();
+		}
+
 		if(this.__renderer != null){
 			//remove from renderer
 		}
