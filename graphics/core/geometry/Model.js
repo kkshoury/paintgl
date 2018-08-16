@@ -2,6 +2,7 @@ class Model{
 	constructor(silent){
 		this.__models = null;
 		this.__geometry = null;
+		this.__color = [1.0 , 1.0, 1.0, 1.0];
 
 		this.__quaternion = null;
 
@@ -20,6 +21,12 @@ class Model{
 
 		this.__dirty = true;
 
+	}
+
+	setColor(color){
+		this.__color = [color[0], color[1], color[2], color[3]];
+		this.setDirty();
+		this.notifyDirty();
 	}
 
 	notifyDirty(target){
@@ -49,6 +56,7 @@ class Model{
 		this.mat4Float32Array = null;
 		this.vertexFloat32Array = null;
 		this.colorFloat32Array = null;
+		this.__dirty = true;
 	}
 
 	classId() {return "MODEL2D";}
@@ -125,10 +133,10 @@ class Model{
 		let ver = this.getVertexFloat32Array();
 
 		for(var i = 0 ; i < ver.length/2; i++){
-				this.colorFloat32Array.push(1.0);
-				this.colorFloat32Array.push(0.0);
-				this.colorFloat32Array.push(1.0);
-				this.colorFloat32Array.push(1.0);
+				this.colorFloat32Array.push(this.__color[0]);
+				this.colorFloat32Array.push(this.__color[1]);
+				this.colorFloat32Array.push(this.__color[2]);
+				this.colorFloat32Array.push(this.__color[3]);
 		}
 		this.colorFloat32Array = new Float32Array(this.colorFloat32Array);
 		return this.colorFloat32Array;
@@ -181,6 +189,8 @@ class Model{
 	}
 
 	update(){
-		this.__renderer.update(this);
+		if(this.__renderer){
+			this.__renderer.update(this);
+		}
 	}
 }

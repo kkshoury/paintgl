@@ -224,7 +224,12 @@ class Color extends React.Component {
   toggle(){
       this.setState({
         checked : !this.state.checked
-      });     
+      });    
+
+      paintgl.Events.EventEmitter.shout("COLOR_CHANGED", 
+      [this.props.r/255.0, this.props.g / 255.0, this.props.b / 255.0, 1.0],
+      "UI"
+      );
       paintgl.ArtManagers2D.PathManager2D.setLineColor(this.props.r/255.0, this.props.g / 255.0, this.props.b / 255.0, 1.0);
    }
 

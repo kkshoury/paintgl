@@ -56,10 +56,11 @@ CONFIG.TOOLS = CONFIG.TOOLS || {
 	"tool-brush":
 	 {		
 		name: "tool-brush",
+		toolClass: "2D_BRUSH_TOOL",
 		icon_16: "resources/icons/tool-brush-16.png",
 		icon_32: "resources/icons/tool-brush-32.png",
 		load: true,
-		enabled: false
+		enabled: true
 	},
 	"tool-eraser":
 	 {		
