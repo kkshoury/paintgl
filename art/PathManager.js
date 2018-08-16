@@ -61,7 +61,6 @@ class PathManager2D {
 	}
 
 	init(paintgl){
-		
 	}
 
 	postInit(paintgl){

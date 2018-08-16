@@ -108,7 +108,7 @@ class RasterLayerRenderer{
 		gl.vertexAttribPointer(this.aTexCoords, 2, gl.FLOAT, false, 0, 0);
 
 		// gl.bindBuffer(gl.ARRAY_BUFFER, this.bufferUnit.getVertexBuffer());
-		gl.viewport(0, 0, 800, 600);
+		// gl.viewport(0, 0, 800, 600);
 		gl.drawArrays(gl.TRIANGLES, 0, this.bufferUnit.getVertexData().length/2);
 
 		gl.bindBuffer(gl.ARRAY_BUFFER, null);

@@ -12,7 +12,6 @@ class PaintGLScene2D{
 	}
 
 	init(){
-		
 	}
 
 	setBackgroundColor(r, g, b, a){

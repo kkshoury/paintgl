@@ -53,6 +53,9 @@ class ToolManager{
 		}
 
 		this.activeTool = this.tools[toolId];
+		if(this.activeTool.start){
+			this.activeTool.start();
+		}
 			
 	}
 

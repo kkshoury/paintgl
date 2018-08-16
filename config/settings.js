@@ -7,5 +7,5 @@ CONFIG.SETTINGS.GRAPHICS = CONFIG.SETTINGS.GRAPHICS || {
 	canvasHeight: 600,
 	canvasId : "canvas",
 	canvasParent: "maindiv",
-	backgroundColor : [1.0, 0.0, 1.0, 1.0]
+	backgroundColor : [1.0, 1.0, 1.0, 1.0]
 };

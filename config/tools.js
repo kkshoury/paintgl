@@ -68,7 +68,7 @@ CONFIG.TOOLS = CONFIG.TOOLS || {
 		icon_16: "resources/icons/tool-eraser-16.png",
 		icon_32: "resources/icons/tool-eraser-32.png",
 		load: true,
-		enabled: false
+		enabled: true
 	},
 	"tool-fill":
 	 {		

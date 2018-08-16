@@ -9,6 +9,6 @@ CONFIG.EVENTS.SOURCE_ALIAS = {
 	"LAYERS": true,
 	"ADVANCED2D": true,
 	"GRAPHICS_ENGINE": true
-}
+};
 
 

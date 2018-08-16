@@ -84,7 +84,7 @@ class LineRenderer {
 			this.initBuffers(gl);
 			this.bufferUnit.setDirty(false);
 		}
-
+        
 		gl.useProgram(this.program);
 		gl.enableVertexAttribArray(this.aPosition);
 		gl.uniform4fv(this.uColor, new Float32Array(this.lineColor));

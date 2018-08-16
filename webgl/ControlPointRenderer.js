@@ -59,7 +59,7 @@ class ControlPointRenderer {
 			this.bufferUnit.setDirty(false);
 		}
 
-		gl.useProgram(this.program);
+        gl.useProgram(this.program);
 
 		gl.enableVertexAttribArray(this.aPosition);
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.bufferUnit.getVertexBuffer());

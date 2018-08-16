@@ -135,10 +135,14 @@ let simpleTextureVertexShaderCode =
   let polygonVertexShader = 
       "attribute vec2 a_position;" 
   +   "attribute vec4 a_color;"
+  +   "attribute mat3 a_mat;"
+
   +   "varying vec4 v_color;"
   +   "void main() {"
-  +     "v_color = u_color;"
-  +     "gl_Position = vec4(a_position, 0.0, 1.0);"
+  +     "v_color = a_color;"
+  +     "vec2 pos = mat2(a_mat) * a_position + vec2(a_mat[0][2], a_mat[1][2]);"
+  +     "gl_Position = vec4(pos, 0.0, 1.0);"
+
   +"}"
 
 let polygonFragmentShader =     
