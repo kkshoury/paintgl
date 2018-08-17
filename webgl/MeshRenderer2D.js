@@ -87,7 +87,7 @@ class MeshRenderer2D {
 
 		this.removeModels = function(){
 			bufferUnit.clear();
-			this.models = [];
+			models = [];
 			// models = [];
 		}
 

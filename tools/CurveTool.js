@@ -1,7 +1,7 @@
 class CurveTool{
 	constructor(){
 		this.id = "2D_CURVE_TOOL";
-		this.line = [null, null, null, null, null, null, null, null];
+		this.line = [];
 		this.controlPointCount = 0;
 		this.mouseIsDown = false;
 		this.STATE_DRAW_LINE = 0;
@@ -13,17 +13,95 @@ class CurveTool{
 		this.mouseDidntMove = false;
 		this.pathManager = null;
 		this.controlPointsManager = null;
+		this.curveColor = [0.0, 0.0, 0.0, 1.0];
+		this.curveSize = 1;
 		
 		
 	}
 
 	init(paintgl){
+		this.curveSize = 1;
 		this.pathManager = paintgl.ArtManagers2D.PathManager2D;
 		this.controlPointsManager = paintgl.ControlManagers.ControlPointManager;
+		this.meshRenderer = new MeshRenderer2D();
+		this.sweep = null;
+		this.shape = new RectangleGeometry2D();
+		this.shape.setDimensions(0, 0, 0.01, 0.01 * 600/800.0);
+		this.curveModel = new Model();
+		paintgl.Events.EventEmitter.listen(this.setColor.bind(this),
+			"COLOR_CHANGED", 
+			"UI");
+
+		let layer = paintgl.Advanced2D.RasterLayerManager.orderedLayers[0];
+		this.fb = new FrameBuffer({
+			"textureId" : layer.texture.id, 
+			"texWidth": layer.texture.width,
+			"texHeight": layer.texture.height
+		});
+
+
+	}
+
+	increamentCurveSize(){
+		if(this.curveSize >= 10){
+			this.curveSize = 10;
+			return;
+		}
+
+		this.curveSize++;
+	}
+
+	decrementCurveSize(){
+		if(this.curveSize <= 1){
+			this.curveSize = 1;
+			return;
+		}
+		this.curveSize--;
+	}
+
+	setColor(color){
+		if(this.curveColor){
+			this.curveColor = color;
+		}
+
+		if(this.curveModel){
+			this.curveModel.setColor(this.curveColor);
+			this.curveModel.update();
+		}
 	}
 
 	start(){
+		this.curveSize = 1;
 		this.state = this.STATE_DRAW_LINE;
+		this.curveModel.setRenderer(this.meshRenderer);
+		this.sweep = new SweepGeometry2D();
+		this.sweep.setShape(this.shape);
+		this.curveModel.addGeometry(this.sweep);
+		paintgl.Engine.RenderingEngine2D.addRenderer(this.meshRenderer, 3);
+		this.curveModel.setColor(this.curveColor);
+		paintgl.Events.EventEmitter.listen(this.keyPressed.bind(this), "KEY_DOWN", "USER_KEY_INPUT");
+		
+	}
+
+	commit(){
+		this.state = this.STATE_DRAW_LINE;
+		this.controlPointCount = 0;
+		this.mouseIsDown = false;
+		
+		this.pathManager.removeAllPaths();
+		this.controlPointsManager.unregisterListener(this);
+		this.controlPointsManager.clearControlPoints();
+
+		if(this.line.length >= 6){
+			this.meshRenderer.target = this.fb.id;
+			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+			this.meshRenderer.target = null;
+			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+		}
+		
+		this.curveModel.setRenderer(null);
+		
+
 	}
 
 	onMouseDown(e){
@@ -35,15 +113,7 @@ class CurveTool{
 
 			let index = this.controlPointsManager.checkSelectedPoint([mx, my]);
 			if(index == -1){
-				this.state = this.STATE_DRAW_LINE;
-				this.pathManager.commitPathToLayer(this.handle);
-				this.pathManager.removeTempLines();
-				this.controlPointsManager.unregisterListener(this);
-				this.controlPointsManager.clearControlPoints();
-				paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
-				this.controlPointCount = 0;
-
-				this.line = setMousePositionFromEvent(e, this.line, 0);
+				this.commit();
 			}
 
 			return;
@@ -88,7 +158,15 @@ class CurveTool{
 					);
 
 			}
-			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+
+			let curve = new BezierCurveGeometry2D();
+			curve.setControlPoints(this.line);
+			let vert = curve.getVertices();
+			this.sweep.setPath(vert);
+			this.curveModel.setRenderer(this.meshRenderer);
+			this.curveModel.update();
+
+			// paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 			this.state == this.STATE_EDIT_MODE;
 			this.controlPointsManager.registerListener(this);
@@ -204,15 +282,26 @@ class CurveTool{
 
 	}
 
-	commit(){
-		this.state = this.STATE_EDIT_MODE;
-		this.pathManager.commitPathToLayer();
-		this.pathManager.removeTempLines();
-		this.controlPointsManager.unregisterListener(this);
-		this.controlPointsManager.clearControlPoints();
-		paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
-		this.mouseIsDown = false;
-		this.controlPointCount = 0;
+	keyPressed(e){
+		if(e.key === paintgl.Keyboard.MINUS){
+			this.decrementCurveSize();
+			this.shape.setDimensions(0, 0, this.curveSize * 0.01, this.curveSize * 0.01 * 600/800.0);
+			if(this.curveModel){
+				this.curveModel.update();
+			}
+			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+
+		}
+
+		if(e.key === paintgl.Keyboard.PLUS){
+			this.increamentCurveSize();
+			this.shape.setDimensions(0, 0, this.curveSize * 0.01, this.curveSize * 0.01 * 600/800.0);
+			if(this.curveModel){
+				this.curveModel.update();
+			}
+			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+
+		}
 	}
 
 	handleControlPointEvent(e){
@@ -245,6 +334,12 @@ class CurveTool{
 			for(var i = 0; i < this.controlPointCount ; i++){
 				this.controlPointsManager.registerControlPoint(i+1, [this.line[i*2], this.line[i*2 + 1]]);
 			}
+
+			let curve = new BezierCurveGeometry2D();
+			curve.setControlPoints(this.line);
+			let vert = curve.getVertices();
+			this.sweep.setPath(vert);
+			this.curveModel.update();
 
 			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 

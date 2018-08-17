@@ -58,7 +58,15 @@ class PathManager2D {
 			this.lineRenderer.target = null;
 			this.lineRenderer.clearLines();
 		}
+		
+		this.removeAllPaths = function(){
+			this.lineRenderer.clearLines();
+			__tempLines = [];
+			__handle = 0;
+		}	
 	}
+
+	
 
 	init(paintgl){
 	}
