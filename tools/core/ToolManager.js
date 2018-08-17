@@ -27,6 +27,7 @@ class ToolManager{
 		this.addTool(new LineTool());
 		this.addTool(new EraserTool());
 		this.addTool(new BrushTool());
+		this.addTool(new CurveTool());
 
 		Object.values(this.tools).forEach(tool => {tool.init(paintgl)});
 		this.setActiveTool(pentool.id);

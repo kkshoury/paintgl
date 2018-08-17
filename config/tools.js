@@ -48,10 +48,11 @@ CONFIG.TOOLS = CONFIG.TOOLS || {
 	"tool-curve":
 	 {		
 		name: "tool-curve",
+		toolClass: "2D_CURVE_TOOL",
 		icon_16: "resources/icons/tool-curve-16.png",
 		icon_32: "resources/icons/tool-curve-32.png",
 		load: true,
-		enabled: false
+		enabled: true
 	},
 	"tool-brush":
 	 {		
