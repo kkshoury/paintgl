@@ -26,9 +26,9 @@ class LinestripTool{
 		
 	}
 
-	init(paintgl){
-		this.pathManager = paintgl.ArtManagers2D.PathManager2D;
-		this.controlPointsManager = paintgl.ControlManagers.ControlPointManager;
+	init(leo){
+		this.pathManager = leo.ArtManagers2D.PathManager2D;
+		this.controlPointsManager = leo.ControlManagers.ControlPointManager;
 	}
 
 	onMouseDown(e){
@@ -45,7 +45,7 @@ class LinestripTool{
 				this.pathManager.removeTempLines();
 				this.controlPointsManager.unregisterListener(this);
 				this.controlPointsManager.clearControlPoints();
-				paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+				leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 				this.vertexCount = 0;
 
 				this.line = setMousePositionFromEvent(e, this.line, 0);
@@ -65,7 +65,7 @@ class LinestripTool{
 				);
 
 		}
-		paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+		leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 		this.controlPointsManager.unregisterListener(this);
 	}
@@ -97,7 +97,7 @@ class LinestripTool{
 
 		}
 
-		paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+		leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 	}
 
 	onDoubleClick(e){
@@ -131,7 +131,7 @@ class LinestripTool{
 			this.controlPointsManager.registerControlPoint(i +1, [this.line[i*2], this.line[i*2 + 1]]);
 		}
 
-		paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+		leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 	}
 
@@ -167,7 +167,7 @@ class LinestripTool{
 		this.pathManager.removeTempLines();
 		this.controlPointsManager.unregisterListener(this);
 		this.controlPointsManager.clearControlPoints();
-		paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+		leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 		this.mouseIsDown = false;
 		this.vertexCount = 0;
 	}
@@ -203,7 +203,7 @@ class LinestripTool{
 				this.controlPointsManager.registerControlPoint(i+1, [this.line[i*2], this.line[i*2 + 1]]);
 			}
 
-			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 		}
 		else if(e.type === this.controlPointsManager.CONTROL_POINT_SELECTED_EVENT){

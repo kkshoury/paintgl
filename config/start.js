@@ -3,9 +3,9 @@ var CONFIG = CONFIG || {};
 CONFIG.STARTUP = CONFIG.STARTUP || {};
 
 
-// paintgl.ArtManagers2D = {};
-// paintgl.IOManagers = {};
-// paintgl.ControlManagers = {};
+// leo.ArtManagers2D = {};
+// leo.IOManagers = {};
+// leo.ControlManagers = {};
 
 CONFIG.STARTUP.INIT = function(){
 	return {
@@ -37,7 +37,7 @@ CONFIG.STARTUP.INIT = function(){
 		},
 
 		"Engine" : {
-			"RenderingEngine2D" : PaintGL2DRenderingEngine
+			"RenderingEngine2D" : RenderingEngine2D
 			
 		},
 

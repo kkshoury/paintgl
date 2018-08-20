@@ -3,7 +3,7 @@ class TextureManager2D {
 		this.textureData = {};
 		this.gpuTextures = {};
 		this.dirty = {};
-		paintgl.Events.EventEmitter.listen(this.addTexture.bind(this), "TEXTURE_CREATED", "GRAPHICS_ENGINE");
+		leo.Events.EventEmitter.listen(this.addTexture.bind(this), "TEXTURE_CREATED", "GRAPHICS_ENGINE");
 	}
 
 	getTexture2D(gl, id){

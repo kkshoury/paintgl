@@ -21,7 +21,7 @@ class PenTool{
 	}
 
 	init(){
-		this.pathManager = paintgl.ArtManagers2D.PathManager2D;
+		this.pathManager = leo.ArtManagers2D.PathManager2D;
 	}
 
 	postInit(){
@@ -49,7 +49,7 @@ class PenTool{
 
 		);
 		this.sampleCount++;
-		paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+		leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 	}
 
 	onMouseUp(e){
@@ -70,7 +70,7 @@ class PenTool{
 
 	commit(){
 		this.pathManager.commitPathToLayer(this.handle);
-		paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+		leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 		this.pathManager.removeTempLines();
 		this.mouseIsDown = false;
 		this.sampleCount = 0;

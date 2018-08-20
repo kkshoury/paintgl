@@ -12,7 +12,7 @@ class PopupDialog{
 
 	}
 
-	postInit(paintgl){
+	postInit(leo){
 
 	}
 

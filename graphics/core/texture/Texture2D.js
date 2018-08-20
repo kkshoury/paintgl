@@ -34,7 +34,7 @@ class Texture2D{
  		this.forRead = read;
  		this.width = width;
  		this.height = height;
- 		paintgl.Events.EventEmitter.shout("TEXTURE_CREATED", {id: this.id, props: this}, "GRAPHICS_ENGINE");
+ 		leo.Events.EventEmitter.shout("TEXTURE_CREATED", {id: this.id, props: this}, "GRAPHICS_ENGINE");
 
 
 

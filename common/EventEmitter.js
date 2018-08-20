@@ -1,12 +1,12 @@
 class EventEmitter {
 	constructor(){
 		this.events = {};
-		this.PAINTGL_SOURCE = "PAINTGL";
+		this.leo_SOURCE = "leo";
 		this.kbe;
 	}
 
 	preInitConfiguration(){
-		this.events[this.PAINTGL_SOURCE] = [];
+		this.events[this.leo_SOURCE] = [];
 
 		let aliases = Object.keys(CONFIG.EVENTS.SOURCE_ALIAS);
 		aliases.forEach(a => {
@@ -46,8 +46,8 @@ class EventEmitter {
 			}
 		}
 		else{
-			if(this.events[this.PAINTGL_SOURCE][eventType]){
-		 		listeners = this.events[this.PAINTGL_SOURCE][eventType];
+			if(this.events[this.leo_SOURCE][eventType]){
+		 		listeners = this.events[this.leo_SOURCE][eventType];
 			}
 		}	
 
@@ -59,7 +59,7 @@ class EventEmitter {
 			if(source){
 				params.eventSource = source;
 			} else {
-				params.eventSource = this.PAINTGL_SOURCE;
+				params.eventSource = this.leo_SOURCE;
 			}
 
 			params.eventType = eventType;

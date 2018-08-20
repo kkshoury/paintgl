@@ -1,4 +1,4 @@
-const paintgl = {};
+const leo = {};
 var dlog = function(t){
 	if(log.enableDebugLogging){
 		console.log(t);
@@ -7,23 +7,23 @@ var dlog = function(t){
 
 var log = function(msg, src){
 	if(!src){
-		console.log("paintgl: " + msg);
+		console.log("leo: " + msg);
 	}
 	else if(src){
-		console.log("paintgl<" + src + ">: " + msg);
+		console.log("leo<" + src + ">: " + msg);
 	}
 }
 
 
 log.enableDebugLogging = false;
 
-paintgl.start = function(config){
+leo.start = function(config){
 	if(!config){
 		log("Failed to start. No cofiguration file");
 		return;
 	}
 
-	paintgl.loadUI();
+	leo.loadUI();
 	let result = init(config);
 
 	if(!result){
@@ -43,35 +43,35 @@ function init(config){
 	let upperContextStrings = Object.keys(initManagers);
 
 	upperContextStrings.forEach(ucs => {
-		paintgl[ucs] = paintgl[ucs] || {};
+		leo[ucs] = leo[ucs] || {};
 		Object.keys(initManagers[ucs]).forEach(contextObjectKey => {
-			(paintgl[ucs])[contextObjectKey] = new (initManagers[ucs])[contextObjectKey]();
-			if((paintgl[ucs])[contextObjectKey].preInitConfiguration){
-				(paintgl[ucs])[contextObjectKey].preInitConfiguration(config);
+			(leo[ucs])[contextObjectKey] = new (initManagers[ucs])[contextObjectKey]();
+			if((leo[ucs])[contextObjectKey].preInitConfiguration){
+				(leo[ucs])[contextObjectKey].preInitConfiguration(config);
 			}
 		})
 	});
 
-	Object.values(paintgl).forEach(v => {
+	Object.values(leo).forEach(v => {
 		Object.values(v).forEach(ctx => {
 			if(ctx.init){
-				ctx.init(paintgl);
+				ctx.init(leo);
 			}
 		})
 	});
 
-	Object.values(paintgl).forEach(v => {
+	Object.values(leo).forEach(v => {
 		Object.values(v).forEach(ctx => {
 			if(ctx.postInit){
-				ctx.postInit(paintgl);
+				ctx.postInit(leo);
 			}
 		})
 	});
 
-	Object.values(paintgl).forEach(v => {
+	Object.values(leo).forEach(v => {
 		Object.values(v).forEach(ctx => {
 			if(ctx.start){
-				ctx.start(paintgl);
+				ctx.start(leo);
 			}
 		})
 	})
@@ -81,7 +81,7 @@ function init(config){
 
 }
 
-paintgl.loadUI = function(){
+leo.loadUI = function(){
 	// let canvas = document.createElement("canvas");
 	// canvas.id = "canvas";
 	// canvas.width = 800;

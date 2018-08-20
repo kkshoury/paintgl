@@ -1,4 +1,4 @@
-class PaintGL2DRenderingEngine {
+class RenderingEngine2D {
 	
 	constructor(){
 		this.stopped = false;
@@ -17,13 +17,13 @@ class PaintGL2DRenderingEngine {
 	}
 
 	init(context){
-		this.scene = new PaintGLScene2D(this.config);
+		this.scene = new leoScene2D(this.config);
 		this.composer = new SceneComposer2D(this.config);
 		this.composer.init(this.config);
 	}
 
 	postInit(context){
-		paintgl.Events.EventEmitter.listen(this.update.bind(this), "SCENE_CHANGED", "SCENE");
+		leo.Events.EventEmitter.listen(this.update.bind(this), "SCENE_CHANGED", "SCENE");
 	}
 
 	start(){

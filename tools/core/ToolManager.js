@@ -4,17 +4,17 @@ class ToolManager{
 		this.activeTool = null;
 	}
 
-	init(paintgl){
+	init(leo){
 	}
 	
-	postInit(paintgl){
+	postInit(leo){
 		
-		paintgl.Events.EventEmitter.listen(this.onMouseDown.bind(this), "MOUSE_DOWN", "GL_WINDOW");
-		paintgl.Events.EventEmitter.listen(this.onMouseUp.bind(this), "MOUSE_UP", "GL_WINDOW");
-		paintgl.Events.EventEmitter.listen(this.onMouseMove.bind(this), "MOUSE_MOVE", "GL_WINDOW");
-		paintgl.Events.EventEmitter.listen(this.onDoubleClick.bind(this), "MOUSE_DOUBLE_CLICK", "GL_WINDOW");
+		leo.Events.EventEmitter.listen(this.onMouseDown.bind(this), "MOUSE_DOWN", "GL_WINDOW");
+		leo.Events.EventEmitter.listen(this.onMouseUp.bind(this), "MOUSE_UP", "GL_WINDOW");
+		leo.Events.EventEmitter.listen(this.onMouseMove.bind(this), "MOUSE_MOVE", "GL_WINDOW");
+		leo.Events.EventEmitter.listen(this.onDoubleClick.bind(this), "MOUSE_DOUBLE_CLICK", "GL_WINDOW");
 
-		paintgl.Events.EventEmitter.listen((function(toolState){
+		leo.Events.EventEmitter.listen((function(toolState){
 			this.setActiveTool(toolState.toolClass);
 		}).bind(this), "TOOL_SELECTED", "UI_TOOLS");
 
@@ -33,7 +33,7 @@ class ToolManager{
 		this.addTool(new BrushTool());
 		this.addTool(new CurveTool());
 
-		Object.values(this.tools).forEach(tool => {tool.init(paintgl)});
+		Object.values(this.tools).forEach(tool => {tool.init(leo)});
 		this.setActiveTool(pentool.id);
 		
 	}

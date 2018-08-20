@@ -10,15 +10,15 @@ class KeyboardEventEmitter {
 		this.target = target;
 		
 		let ondown = function(e){
-			paintgl.Events.EventEmitter.shout(this.KEY_DOWN, {key: e.keyCode}, this.sourceType);
+			leo.Events.EventEmitter.shout(this.KEY_DOWN, {key: e.keyCode}, this.sourceType);
 		}
 
 		let onup = function(e){
-			paintgl.Events.EventEmitter.shout(this.KEY_UP, {key: e.keyCode}, this.sourceType);
+			leo.Events.EventEmitter.shout(this.KEY_UP, {key: e.keyCode}, this.sourceType);
 		}
 
 		let onpress = function(e){
-			paintgl.Events.EventEmitter.shout(this.KEY_PRESSED, {key: e.keyCode}, this.sourceType);
+			leo.Events.EventEmitter.shout(this.KEY_PRESSED, {key: e.keyCode}, this.sourceType);
 		}
 
 
@@ -31,6 +31,6 @@ class KeyboardEventEmitter {
 
 }
 
-paintgl.Keyboard = paintgl.Keyboard || {};
-paintgl.Keyboard.PLUS = 61;
-paintgl.Keyboard.MINUS = 173;
+leo.Keyboard = leo.Keyboard || {};
+leo.Keyboard.PLUS = 61;
+leo.Keyboard.MINUS = 173;

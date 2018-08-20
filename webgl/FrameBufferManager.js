@@ -6,7 +6,7 @@ class FrameBufferManager {
 		this.boundfb;
 		this.texManager = texManager;
 
-		paintgl.Events.EventEmitter.listen(this.addFramebuffer.bind(this), "FRAME_BUFFER_CREATED", "GRAPHICS_ENGINE");
+		leo.Events.EventEmitter.listen(this.addFramebuffer.bind(this), "FRAME_BUFFER_CREATED", "GRAPHICS_ENGINE");
 
 	}
 

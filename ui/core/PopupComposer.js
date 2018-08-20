@@ -12,7 +12,7 @@ class PopupComposer{
 
 	}
 
-	postInit(paintgl){
+	postInit(leo){
 
 	}
 

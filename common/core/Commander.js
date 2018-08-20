@@ -8,11 +8,11 @@ class Commander{
 
 	}
 
-	init(paintgl, progress){
+	init(leo, progress){
 
 	}
 
-	postInit(paintgl, progress){
+	postInit(leo, progress){
 
 	}
 

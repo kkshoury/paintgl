@@ -36,7 +36,7 @@ class FrameBuffer{
 
 		this.attachedTextures = texAttachments;
 
- 		paintgl.Events.EventEmitter.shout("FRAME_BUFFER_CREATED", this, "GRAPHICS_ENGINE");
+ 		leo.Events.EventEmitter.shout("FRAME_BUFFER_CREATED", this, "GRAPHICS_ENGINE");
 
  		function getDefault(){
  			let atm = {}

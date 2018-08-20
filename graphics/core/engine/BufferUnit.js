@@ -18,7 +18,7 @@ class BufferUnit{
 		this.mat4Buffer = null;
 
 		this.dirty = true;
-		paintgl.Events.EventEmitter.shout("BUFFER_UNIT_CREATED", this, "BUFFERS");
+		leo.Events.EventEmitter.shout("BUFFER_UNIT_CREATED", this, "BUFFERS");
 		this.__ready = false;
 	}
 
@@ -26,7 +26,7 @@ class BufferUnit{
 		this.vertexData = float32array;
 		this.dirty = true;
 		this.__ready = false;
-		paintgl.Events.EventEmitter.shout("BUFFER_UNIT_CHANGED", this, "BUFFERS");
+		leo.Events.EventEmitter.shout("BUFFER_UNIT_CHANGED", this, "BUFFERS");
 
 	}
 
@@ -47,7 +47,7 @@ class BufferUnit{
 		this.dirty = true;
 		this.__ready = false;
 
-		paintgl.Events.EventEmitter.shout("BUFFER_UNIT_CHANGED", this, "BUFFERS");
+		leo.Events.EventEmitter.shout("BUFFER_UNIT_CHANGED", this, "BUFFERS");
 		
 	}
 
@@ -67,7 +67,7 @@ class BufferUnit{
 		this.dirty = true;
 		this.__ready = false;
 
-		paintgl.Events.EventEmitter.shout("BUFFER_UNIT_CHANGED", this, "BUFFERS");
+		leo.Events.EventEmitter.shout("BUFFER_UNIT_CHANGED", this, "BUFFERS");
 
 	}
 
@@ -93,7 +93,7 @@ class BufferUnit{
 		this.__ready = false;
 		this.mat4Data = float32array;
 		this.dirty = true;
-		paintgl.Events.EventEmitter.shout("BUFFER_UNIT_CHANGED", this, "BUFFERS");
+		leo.Events.EventEmitter.shout("BUFFER_UNIT_CHANGED", this, "BUFFERS");
 	}
 
 	getMat4Buffer(){

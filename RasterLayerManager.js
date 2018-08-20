@@ -17,7 +17,7 @@ class RasterLayerManager{
 	}
 
 	postInit(){
-		paintgl.Engine.RenderingEngine2D.addRenderer(this.renderer, 0);
+		leo.Engine.RenderingEngine2D.addRenderer(this.renderer, 0);
 
 	}
 
@@ -42,7 +42,7 @@ class RasterLayerManager{
 		};
 
 		this.orderedLayers.push(layer);
-		paintgl.Events.EventEmitter.shout("RASTER_LAYER_ADDED", layer,"LAYERS");
+		leo.Events.EventEmitter.shout("RASTER_LAYER_ADDED", layer,"LAYERS");
 
 		return layer;
 	}

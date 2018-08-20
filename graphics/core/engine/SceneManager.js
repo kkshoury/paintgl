@@ -1,4 +1,4 @@
-class PaintGLScene2D{
+class leoScene2D{
 	constructor(config){
 		//camera
 		//animator

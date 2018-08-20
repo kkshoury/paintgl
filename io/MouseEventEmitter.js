@@ -23,25 +23,25 @@ class MouseEventEmitter {
 
 		let ondown = function(e){
 			__getMousePosInClipCoordinates(e, this.targetComponent);
-			paintgl.Events.EventEmitter.shout(this.MOUSE_DOWN, e, this.sourceType);
+			leo.Events.EventEmitter.shout(this.MOUSE_DOWN, e, this.sourceType);
 			e.stopPropagation();
 		}
 
 		let onup = function(e){
 			__getMousePosInClipCoordinates(e, this.targetComponent);
-			paintgl.Events.EventEmitter.shout(this.MOUSE_UP, e, this.sourceType);
+			leo.Events.EventEmitter.shout(this.MOUSE_UP, e, this.sourceType);
 			e.stopPropagation();
 		}
 
 		let onmove = function(e){
 			__getMousePosInClipCoordinates(e, this.targetComponent);
-			paintgl.Events.EventEmitter.shout(this.MOUSE_MOVE, e, this.sourceType);
+			leo.Events.EventEmitter.shout(this.MOUSE_MOVE, e, this.sourceType);
 			e.stopPropagation();
 		}
 
 		let ondbl = function(e){
 			__getMousePosInClipCoordinates(e, this.targetComponent);
-			paintgl.Events.EventEmitter.shout(this.MOUSE_DOUBLE_CLICK, e, this.sourceType);
+			leo.Events.EventEmitter.shout(this.MOUSE_DOUBLE_CLICK, e, this.sourceType);
 			e.stopPropagation();
 		}
 

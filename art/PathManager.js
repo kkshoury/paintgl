@@ -54,7 +54,7 @@ class PathManager2D {
 			__handle = 0;
 
 			this.lineRenderer.target = this.fb.id;
-			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 			this.lineRenderer.target = null;
 			this.lineRenderer.clearLines();
 		}
@@ -68,17 +68,17 @@ class PathManager2D {
 
 	
 
-	init(paintgl){
+	init(leo){
 	}
 
-	postInit(paintgl){
-		let layer = paintgl.Advanced2D.RasterLayerManager.orderedLayers[0];
+	postInit(leo){
+		let layer = leo.Advanced2D.RasterLayerManager.orderedLayers[0];
 		this.fb = new FrameBuffer({
 			"textureId" : layer.texture.id, 
 			"texWidth": layer.texture.width,
 			"texHeight": layer.texture.height
 		});
-		paintgl.Engine.RenderingEngine2D.addRenderer(this.lineRenderer, 1);
+		leo.Engine.RenderingEngine2D.addRenderer(this.lineRenderer, 1);
 
 	}
 
@@ -88,7 +88,7 @@ class PathManager2D {
 
 	setLineColor(r, g, b, a){
 		this.lineRenderer.setLineColor(r, g, b, a);
-		paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+		leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 	}
 
 }

@@ -36,18 +36,18 @@ class ControlPointManager {
 		
 	}
 
-	init(paintgl){
+	init(leo){
 	}
 
 
-	postInit(paintgl){
-		paintgl.Events.EventEmitter.listen(this.onMouseDown.bind(this), "MOUSE_DOWN", "GL_WINDOW");
-		paintgl.Events.EventEmitter.listen(this.onMouseUp.bind(this), "MOUSE_UP", "GL_WINDOW");
-		paintgl.Events.EventEmitter.listen(this.onMouseMove.bind(this), "MOUSE_MOVE", "GL_WINDOW");
+	postInit(leo){
+		leo.Events.EventEmitter.listen(this.onMouseDown.bind(this), "MOUSE_DOWN", "GL_WINDOW");
+		leo.Events.EventEmitter.listen(this.onMouseUp.bind(this), "MOUSE_UP", "GL_WINDOW");
+		leo.Events.EventEmitter.listen(this.onMouseMove.bind(this), "MOUSE_MOVE", "GL_WINDOW");
 	}
 
-	start(paintgl){
-		paintgl.Engine.RenderingEngine2D.addRenderer(this.__controlPointRenderer, 3);
+	start(leo){
+		leo.Engine.RenderingEngine2D.addRenderer(this.__controlPointRenderer, 3);
 
 	}
 	registerControlPoint(index, p){
@@ -163,7 +163,7 @@ class ControlPointManager {
 			this.setControlPoint(this.__selectedPointIndex, p);
 			this.__controlPointRenderer.clearControlPoints();
 			this.addPointsToRenderer();
-			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 			
 			this.__tmpEvent.type = this.CONTROL_POINT_MOVED_EVENT;
 			this.__tmpEvent.index = this.__selectedPointIndex;

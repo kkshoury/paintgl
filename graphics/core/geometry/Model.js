@@ -7,7 +7,7 @@ class Model{
 		this.__quaternion = null;
 
 		if(!silent){
-			paintgl.Events.EventEmitter.shout("MODEL_CREATED", this, "GRAPHICS_ENGINE");
+			leo.Events.EventEmitter.shout("MODEL_CREATED", this, "GRAPHICS_ENGINE");
 		}
 
 		this.__visible = true;

@@ -21,7 +21,7 @@ class EraserTool{
 	}
 
 	init(){
-		// this.pathManager = paintgl.ArtManagers2D.PathManager2D;
+		// this.pathManager = leo.ArtManagers2D.PathManager2D;
 		this.shape = new RectangleGeometry2D();
 		this.shape.setDimensions(0, 0, 0.1, 0.1 * 600/800.0);
 		this.renderer = new MeshRenderer2D();
@@ -31,12 +31,12 @@ class EraserTool{
 
 	}
 
-    postInit(paintgl){
+    postInit(leo){
     	
 	}
 
 	start(){
-		let layer = paintgl.Advanced2D.RasterLayerManager.orderedLayers[0];
+		let layer = leo.Advanced2D.RasterLayerManager.orderedLayers[0];
 		this.fb = new FrameBuffer({
 			"textureId" : layer.texture.id, 
 			"texWidth": layer.texture.width,
@@ -52,7 +52,7 @@ class EraserTool{
 		this.sweepModel.setRenderer(this.renderer);
 		
 		this.eraserModel.setRenderer(this.renderer);
-		paintgl.Engine.RenderingEngine2D.addRenderer(this.renderer, 2);
+		leo.Engine.RenderingEngine2D.addRenderer(this.renderer, 2);
 
 
 	}
@@ -76,7 +76,7 @@ class EraserTool{
 		this.eraserModel.translate(e.clipX, e.clipY);
 		this.eraserModel.update();
 		if(!this.mouseIsDown){
-			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 		}
 
 
@@ -97,17 +97,17 @@ class EraserTool{
 
 		// );
 		this.sampleCount++;
-		paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+		leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 	}
 
 	onMouseUp(e){
 		if(this.mouseIsDown && this.sampleCount > 0){
 			this.renderer.target = this.fb.id;
-			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 			this.renderer.target = null;
 			this.renderer.removeModels();
 			this.eraserModel.setRenderer(this.renderer);
-			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 			this.commit();
 			this.mouseIsDown = false;
@@ -129,7 +129,7 @@ class EraserTool{
 
 	commit(){
 		// this.pathManager.commitPathToLayer(this.handle);
-		paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+		leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 		// this.pathManager.removeTempLines();
 		this.mouseIsDown = false;
 		this.sampleCount = 0;

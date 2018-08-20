@@ -12,7 +12,7 @@ class PopupMenu{
 
 	}
 
-	postInit(paintgl){
+	postInit(leo){
 
 	}
 

@@ -19,20 +19,20 @@ class CurveTool{
 		
 	}
 
-	init(paintgl){
+	init(leo){
 		this.curveSize = 1;
-		this.pathManager = paintgl.ArtManagers2D.PathManager2D;
-		this.controlPointsManager = paintgl.ControlManagers.ControlPointManager;
+		this.pathManager = leo.ArtManagers2D.PathManager2D;
+		this.controlPointsManager = leo.ControlManagers.ControlPointManager;
 		this.meshRenderer = new MeshRenderer2D();
 		this.sweep = null;
 		this.shape = new RectangleGeometry2D();
 		this.shape.setDimensions(0, 0, 0.01, 0.01 * 600/800.0);
 		this.curveModel = new Model();
-		paintgl.Events.EventEmitter.listen(this.setColor.bind(this),
+		leo.Events.EventEmitter.listen(this.setColor.bind(this),
 			"COLOR_CHANGED", 
 			"UI");
 
-		let layer = paintgl.Advanced2D.RasterLayerManager.orderedLayers[0];
+		let layer = leo.Advanced2D.RasterLayerManager.orderedLayers[0];
 		this.fb = new FrameBuffer({
 			"textureId" : layer.texture.id, 
 			"texWidth": layer.texture.width,
@@ -77,9 +77,9 @@ class CurveTool{
 		this.sweep = new SweepGeometry2D();
 		this.sweep.setShape(this.shape);
 		this.curveModel.addGeometry(this.sweep);
-		paintgl.Engine.RenderingEngine2D.addRenderer(this.meshRenderer, 3);
+		leo.Engine.RenderingEngine2D.addRenderer(this.meshRenderer, 3);
 		this.curveModel.setColor(this.curveColor);
-		paintgl.Events.EventEmitter.listen(this.keyPressed.bind(this), "KEY_DOWN", "USER_KEY_INPUT");
+		leo.Events.EventEmitter.listen(this.keyPressed.bind(this), "KEY_DOWN", "USER_KEY_INPUT");
 		
 	}
 
@@ -94,9 +94,9 @@ class CurveTool{
 
 		if(this.line.length >= 6){
 			this.meshRenderer.target = this.fb.id;
-			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 			this.meshRenderer.target = null;
-			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 		}
 		
 		this.curveModel.setRenderer(null);
@@ -132,7 +132,7 @@ class CurveTool{
 					);
 
 			}
-			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 			this.controlPointsManager.unregisterListener(this);
 
@@ -166,7 +166,7 @@ class CurveTool{
 			this.curveModel.setRenderer(this.meshRenderer);
 			this.curveModel.update();
 
-			// paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+			// leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 			this.state == this.STATE_EDIT_MODE;
 			this.controlPointsManager.registerListener(this);
@@ -174,7 +174,7 @@ class CurveTool{
 				this.controlPointsManager.registerControlPoint(i +1, [this.line[i*2], this.line[i*2 + 1]]);
 			}
 
-			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 		}
 		
@@ -207,7 +207,7 @@ class CurveTool{
 
 			}
 
-			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 
 
@@ -248,7 +248,7 @@ class CurveTool{
 			this.controlPointsManager.registerControlPoint(i +1, [this.line[i*2], this.line[i*2 + 1]]);
 		}
 
-		paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+		leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 	}
 
@@ -283,23 +283,23 @@ class CurveTool{
 	}
 
 	keyPressed(e){
-		if(e.key === paintgl.Keyboard.MINUS){
+		if(e.key === leo.Keyboard.MINUS){
 			this.decrementCurveSize();
 			this.shape.setDimensions(0, 0, this.curveSize * 0.01, this.curveSize * 0.01 * 600/800.0);
 			if(this.curveModel){
 				this.curveModel.update();
 			}
-			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 		}
 
-		if(e.key === paintgl.Keyboard.PLUS){
+		if(e.key === leo.Keyboard.PLUS){
 			this.increamentCurveSize();
 			this.shape.setDimensions(0, 0, this.curveSize * 0.01, this.curveSize * 0.01 * 600/800.0);
 			if(this.curveModel){
 				this.curveModel.update();
 			}
-			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 		}
 	}
@@ -341,7 +341,7 @@ class CurveTool{
 			this.sweep.setPath(vert);
 			this.curveModel.update();
 
-			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 		}
 		else if(e.type === this.controlPointsManager.CONTROL_POINT_SELECTED_EVENT){

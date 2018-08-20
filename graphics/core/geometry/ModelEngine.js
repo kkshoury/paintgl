@@ -1,8 +1,8 @@
 class ModelHandler{
 	constructor(){
-		paintgl.Events.EventEmitter.listen(this.createModel.bind(this), "MODEL_CREATED", "GRAPHICS_ENGINE");
-		// paintgl.Events.EventEmitter.listen(null, "MODEL_PROPERTY_CHANGED", "GRAPHICS_ENGINE");
-		paintgl.Events.EventEmitter.listen(this.createModel.bind(this), "MODEL_ALTERED", "GRAPHICS_ENGINE");
+		leo.Events.EventEmitter.listen(this.createModel.bind(this), "MODEL_CREATED", "GRAPHICS_ENGINE");
+		// leo.Events.EventEmitter.listen(null, "MODEL_PROPERTY_CHANGED", "GRAPHICS_ENGINE");
+		leo.Events.EventEmitter.listen(this.createModel.bind(this), "MODEL_ALTERED", "GRAPHICS_ENGINE");
 
 		this.__staticModels = {};
 		this.__dynamicModels = {};

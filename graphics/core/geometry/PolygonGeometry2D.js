@@ -9,7 +9,7 @@ class PolygonGeometry2D{
 		this.__triangulation = [];
 
 		if(!silent){
-			paintGl.Events.EventEmitter.shout("GEOMETRY_ADDED", this, "GRAPHICS_ENGINE");
+			leo.Events.EventEmitter.shout("GEOMETRY_ADDED", this, "GRAPHICS_ENGINE");
 		}
 
 	}
