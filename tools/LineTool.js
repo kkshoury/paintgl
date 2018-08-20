@@ -139,12 +139,14 @@ class LineTool{
 		else if(e.type === this.controlPointsManager.CONTROL_POINT_MOVED_EVENT) {
 			this.inEditMode = true;
 			let index = e.index;
-			let cp = this.controlPointsManager.getControlPoint(index);
+			
 			if(index == 1){
+				let cp = this.controlPointsManager.getControlPoint(index);
 				this.line[0] = cp[0];
 				this.line[1] = cp[1];
 			}
 			else if (index == 2){
+				let cp = this.controlPointsManager.getControlPoint(index);
 				this.line[2] = cp[0];
 				this.line[3] = cp[1];
 			}

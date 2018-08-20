@@ -2,6 +2,8 @@ class PolygonGeometry2D{
 	constructor(silent){
 		this.__dirty = true;
 		this.__vertices = [];
+		this.closed = true;
+		this.hollow = false;
 
 		//indices
 		this.__triangulation = [];

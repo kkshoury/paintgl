@@ -13,17 +13,21 @@ class LayoutManager{
   }
 
   drawUI(){
-    let _layout = CONFIG.LAYOUT.RIBBON.TOOLBAR["UI_TOOLBAR"];
+    let _layout = CONFIG.LAYOUT.RIBBON.TOOLBAR["UI_2D_DRAW"];
     let _tools = CONFIG.TOOLS;
-    let toolbar = React.createElement(Toolbar, {className: "ribbonContainer", id: "toolbar", name: "Tools", 
-                handleClick : setLine, items: _layout, itemProps: _tools});
+    let toolbar = React.createElement(Toolbar, {className: "ribbonContainer", id: "drawtoolbar", name: "Raster Graphics", 
+                handleClick : null, items: _layout, itemProps: _tools});
+
+    _layout = CONFIG.LAYOUT.RIBBON.TOOLBAR["UI_2D_EDIT"];
+    let toolbarEdit = React.createElement(Toolbar, {className: "ribbonContainer", id: "edittoolbar", name: "Edit", 
+                handleClick : null, items: _layout, itemProps: _tools});
 
     let _colorLayout = CONFIG.LAYOUT.RIBBON.TOOLBAR["UI_COLOR_BAR"];
     let _colors = CONFIG.COLORS.supportedColors.colors;
-    let colorBar = React.createElement(ColorBar, {className: "ribbonContainer", id: "colorbar", name: "Colors", handleClick: alert, items: _colorLayout,
+    let colorBar = React.createElement(ColorBar, {className: "ribbonContainer", id: "colorbar", name: "Colors", handleClick: null, items: _colorLayout,
                   itemProps: _colors});
 
-    let div = React.createElement("div", null, toolbar, colorBar);
+    let div = React.createElement("div", null, toolbar, toolbarEdit, colorBar);
     ReactDOM.render(div, document.getElementById("top"));
   }
 	
@@ -70,7 +74,7 @@ class Toolbar extends React.Component{
  
   render(){
   	let size = this.loadedToolProps.length;
-    let maxColumns = Math.ceil(size / 2.0);
+    let maxColumns = size; //Math.ceil(size / 2.0);
     let children = [];
 
     var r = 1;

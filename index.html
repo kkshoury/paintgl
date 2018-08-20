@@ -11,10 +11,9 @@
 
       
       <script type="text/javascript" src = "app.js"></script>
-      <script type="text/javascript" src = "WebGLWindow.js"></script>
-      <script type="text/javascript" src = "SceneManager.js"></script>
       <script type="text/javascript" src = "RasterLayerManager.js"></script>
       
+      <script type="text/javascript" src = "webgl/WebGLWindow.js"></script>
       <script type="text/javascript" src = "webgl/LineRenderer.js"></script>
       <script type="text/javascript" src = "webgl/MasterRenderer.js"></script>
       <script type="text/javascript" src = "webgl/ControlPointRenderer.js"></script>
@@ -36,16 +35,17 @@
       <script type="text/javascript" src = "tools/BrushTool.js"></script>
       <script type="text/javascript" src = "tools/CurveTool.js"></script>
       
-      <script type="text/javascript" src = "graphics/core/PaintGLRenderingEngine.js"></script>
-      <script type="text/javascript" src = "graphics/core/BufferUnit.js"></script>
+      <script type="text/javascript" src = "graphics/core/engine/PaintGLRenderingEngine.js"></script>
+      <script type="text/javascript" src = "graphics/core/engine/SceneManager.js"></script>
+      <script type="text/javascript" src = "graphics/core/engine/BufferUnit.js"></script>
       <script type="text/javascript" src = "graphics/core/geometry/PolygonGeometry2D.js"></script>
       <script type="text/javascript" src = "graphics/core/geometry/RectangleGeometry2D.js"></script>
       <script type="text/javascript" src = "graphics/core/geometry/SweepGeometry2D.js"></script>
       <script type="text/javascript" src = "graphics/core/geometry/CircleGeometry2D.js"></script>
       <script type="text/javascript" src = "graphics/core/geometry/BezierCurveGeometry2D.js"></script>
       <script type="text/javascript" src = "graphics/core/geometry/Model.js"></script>
+      <script type="text/javascript" src = "graphics/core/texture/Texture2D.js"></script>
       
-      <script type="text/javascript" src = "graphics/texture/Texture.js"></script>
       
       <script type="text/javascript" src = "art/PathManager.js"></script>
       
@@ -73,10 +73,11 @@
   <body onload = "paintgl.start(CONFIG)">
         <div id = "menu">
          <div style="padding-left: 1px; padding-right: 1px"> </div>
-         <div class="selectedMenuItem"> 2D </div>
-         <div> Advanced 2D </div>
-         <div> Image Processing </div>
-         <div> 3D </div>
+         <div class="selectedMenuItem"> Paint </div>
+         <div> 3D Lab </div>
+         <div> Scene </div>
+         <div> Physis Lab </div>
+         <div> Interactive </div>
 
        </div>
        <div id = "top">

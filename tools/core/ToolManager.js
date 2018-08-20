@@ -19,6 +19,10 @@ class ToolManager{
 		}).bind(this), "TOOL_SELECTED", "UI_TOOLS");
 
 		
+		
+	}
+
+	start(){
 		let pentool = new PenTool();
 		this.addTool(pentool);
 		this.addTool(new PolygonTool());
@@ -31,9 +35,6 @@ class ToolManager{
 
 		Object.values(this.tools).forEach(tool => {tool.init(paintgl)});
 		this.setActiveTool(pentool.id);
-	}
-
-	start(){
 		
 	}
 
@@ -51,7 +52,9 @@ class ToolManager{
 		}
 		
 		if(this.activeTool != null){
-			this.activeTool.commit();
+			if(this.activeTool.commit){
+				this.activeTool.commit();
+			}
 
 			if(this.activeTool.stop){
 				this.activeTool.stop();
@@ -66,10 +69,13 @@ class ToolManager{
 	}
 
 	deactivateTools(){
-
+		Object.values(this.tools).forEach(tool => this.disableTool(tool));
 	}
 
 	addTool(tool){
+		if(tool && tool.id && this.tools[tool.id]){
+			log("Dublicate tool: " + tool.id);
+		}
 		this.tools[tool.id] = tool;
 	}
 

@@ -8,7 +8,7 @@ class BezierCurveGeometry2D{
 	}
 
 	getVertices(){
-		let i = 1 / 500.0;
+		let i = 1 / 100.0;
 		let vert = [];
 		for(let t = 0; t <= 1.0; t+=i){
 			let x = (1-t)*(1-t) * this.controlPoints[0]

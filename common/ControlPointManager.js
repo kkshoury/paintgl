@@ -4,16 +4,15 @@ class ControlPointManager {
 	//fires control point changed events
 
 	constructor(){
-		this.LOST_CONTROL_EVENT = 1;
-		this.CONTROL_POINT_SELECTED_EVENT = 2;
-		this.CONTROL_POINT_MOVED_EVENT = 3;
+		this.CONTROL_POINT_SELECTED_EVENT = Symbol();
+		this.CONTROL_POINT_MOVED_EVENT = Symbol();
 
-		this.controlPointRenderer = new ControlPointRenderer();
-		this.listeners = {};
+		this.__controlPointRenderer = new ControlPointRenderer();
+		this.__listeners = {};
 
-		this.selectedPointIndex = -1;
-		this.mouseIsDown = false;
-		this.mouseMovedWhileDown = false;
+		this.__selectedPointIndex = -1;
+		this.__mouseIsDown = false;
+		this.__mouseMovedWhileDown = false;
 		this.__tmpEvent = {
 			type: -1,
 			index: -1,
@@ -22,17 +21,17 @@ class ControlPointManager {
 
 		//arrays of points (arrays)
 		var _controlPoints = [];
-		this.getControlPoint = function(index) { return [_controlPoints[index][0], _controlPoints[index][1]];}
-		this.setControlPoint = function(index, p) { _controlPoints[index] = p;}
+		this.getControlPoint = function(index) { if(index < 0) return null; return [_controlPoints[index][0], _controlPoints[index][1]];}
+		this.setControlPoint = function(index, p) {if(index < 0) return; _controlPoints[index] = p;}
 		this.controlPointsArraySize = function(){ return _controlPoints.length;}
 		this.addPointsToRenderer = function(){
 			for(var p in _controlPoints){
-				this.controlPointRenderer.addControlPoint(_controlPoints[p]);
+				this.__controlPointRenderer.addControlPoint(_controlPoints[p]);
 			}
 		}
 		this.clearControlPoints = function(){ 
 			_controlPoints = [];  ///will this cause a leak
-			this.controlPointRenderer.clearControlPoints()
+			this.__controlPointRenderer.clearControlPoints()
 		};
 		
 	}
@@ -40,21 +39,25 @@ class ControlPointManager {
 	init(paintgl){
 	}
 
+
 	postInit(paintgl){
 		paintgl.Events.EventEmitter.listen(this.onMouseDown.bind(this), "MOUSE_DOWN", "GL_WINDOW");
 		paintgl.Events.EventEmitter.listen(this.onMouseUp.bind(this), "MOUSE_UP", "GL_WINDOW");
 		paintgl.Events.EventEmitter.listen(this.onMouseMove.bind(this), "MOUSE_MOVE", "GL_WINDOW");
-		paintgl.Engine.RenderingEngine2D.addRenderer(this.controlPointRenderer, 3);
 	}
 
+	start(paintgl){
+		paintgl.Engine.RenderingEngine2D.addRenderer(this.__controlPointRenderer, 3);
+
+	}
 	registerControlPoint(index, p){
 		this.setControlPoint(index, p);
-		this.controlPointRenderer.addControlPoints(p);
+		this.__controlPointRenderer.addControlPoints(p);
 	}
 
 	fireEvent(event){
-		Object.keys(this.listeners).forEach((key) => {
-			let l = this.listeners[key];
+		Object.keys(this.__listeners).forEach((key) => {
+			let l = this.__listeners[key];
 			if(l && l.handleControlPointEvent){
 				l.handleControlPointEvent(event);
 			}
@@ -66,12 +69,12 @@ class ControlPointManager {
 			return;
 		}
 
-		this.listeners[listener] = listener;
+		this.__listeners[listener] = listener;
 	}
 
 	unregisterListener(listener){
-		if(this.listeners[listener]){
-			this.listeners[listener] = null;
+		if(this.__listeners[listener]){
+			this.__listeners[listener] = null;
 		}
 	}
 
@@ -104,17 +107,17 @@ class ControlPointManager {
 			return;
 		}
 
-		this.mouseIsDown = true;
-		this.mouseMovedWhileDown = false
+		this.__mouseIsDown = true;
+		this.__mouseMovedWhileDown = false
 		let mx = e.clipX;
 		let my = e.clipY;
 		let p = [mx, my];
 
 		let index = this.checkSelectedPoint(p);
 		if(index){
-			this.selectedPointIndex = index;
+			this.__selectedPointIndex = index;
 			this.__tmpEvent.type = this.CONTROL_POINT_MOVED_EVENT;
-			this.__tmpEvent.id = this.selectedPointIndex;
+			this.__tmpEvent.id = this.__selectedPointIndex;
 			this.__tmpEvent.p = p;
 
 			this.fireEvent(this.__tmpEvent);
@@ -124,9 +127,9 @@ class ControlPointManager {
 	}
 
 	onMouseUp(e){
-		if(!this.mouseIsDown || (e.skip && e.skip > 0)){
+		if(!this.__mouseIsDown || (e.skip && e.skip > 0)){
 			e.skip--;
-			this.selectedPointIndex = -1;
+			this.__selectedPointIndex = -1;
 			return;
 		}
 
@@ -134,14 +137,14 @@ class ControlPointManager {
 			return;
 		}
 
-		this.mouseIsDown = false;
-		this.selectedPointIndex = -1;
+		this.__mouseIsDown = false;
+		this.__selectedPointIndex = -1;
 		let mx = e.clipX;
 		let my = e.clipY;
 	}
 
 	onMouseMove(e){
-		if(!this.mouseIsDown){
+		if(!this.__mouseIsDown){
 			return;
 		}
 
@@ -149,21 +152,21 @@ class ControlPointManager {
 			return;
 		}
 
-		this.mouseMovedWhileDown = true;
+		this.__mouseMovedWhileDown = true;
 
-		if(this.selectedPointIndex != -1){
+		if(this.__selectedPointIndex != -1){
 			let mx = e.clipX;
 			let my = e.clipY;
 
 			let p = [mx, my];
 
-			this.setControlPoint(this.selectedPointIndex, p);
-			this.controlPointRenderer.clearControlPoints();
+			this.setControlPoint(this.__selectedPointIndex, p);
+			this.__controlPointRenderer.clearControlPoints();
 			this.addPointsToRenderer();
 			paintgl.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 			
 			this.__tmpEvent.type = this.CONTROL_POINT_MOVED_EVENT;
-			this.__tmpEvent.index = this.selectedPointIndex;
+			this.__tmpEvent.index = this.__selectedPointIndex;
 			this.__tmpEvent.p = p;
 			this.fireEvent(this.__tmpEvent);
 		}

@@ -31,7 +31,8 @@ CONFIG.STARTUP.INIT = function(){
 		},
 
 		"UIManagers" : {
-			"LayoutManager": LayoutManager
+			"LayoutManager": LayoutManager,
+			// "PopupComposer": PopupComposer
 
 		},
 

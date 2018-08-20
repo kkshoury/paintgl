@@ -1,0 +1,6 @@
+/**
+	Interface description for *Tool.js class
+	For a tool to be added to the ToolManager, it is expected to implement the following interface to avoid 
+	runtime errors
+*/
+

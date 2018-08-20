@@ -5,9 +5,9 @@ CONFIG.LAYOUT = CONFIG.LAYOUT || {};
 CONFIG.LAYOUT.RIBBON = CONFIG.LAYOUT.RIBBON || {};
 
 CONFIG.LAYOUT.RIBBON.TOOLBAR = {
-	"UI_TOOLBAR":
+	"UI_2D_DRAW":
 	{
-		name: "Tools",
+		name: "Draw",
 		maxColumnCountAbsolute: 7,
 		maxColumnCountRatio: 2,
 		list: [
@@ -19,8 +19,21 @@ CONFIG.LAYOUT.RIBBON.TOOLBAR = {
 			{id: "tool-circle"},
 			{id: "tool-curve"},
 			{id: "tool-brush"},
+			// {id: "tool-eraser"},
+			{id: "tool-fill"}
+			// {id: "tool-selectbox"},
+			// {id: "tool-selectfree"},
+			// {id: "tool-undo"},
+			// {id: "tool-redo"}
+		]
+	},
+	"UI_2D_EDIT":
+	{
+		name: "Edit",
+		maxColumnCountAbsolute: 7,
+		maxColumnCountRatio: 2,
+		list: [
 			{id: "tool-eraser"},
-			{id: "tool-fill"},
 			{id: "tool-selectbox"},
 			{id: "tool-selectfree"},
 			{id: "tool-undo"},

@@ -90,16 +90,3 @@ paintgl.loadUI = function(){
 
 	
 }
-
-setRectangle = function(){
-	paintgl.ControlManagers.ToolManager.setActiveTool("RECTANGLE_TOOL");
-}
-
-setLine = function(){
-	paintgl.ControlManagers.ToolManager.setActiveTool("LINE_TOOL");
-}
-
-setPolygon = function(){
-	paintgl.ControlManagers.ToolManager.setActiveTool("POLYGON_TOOL");
-
-}
