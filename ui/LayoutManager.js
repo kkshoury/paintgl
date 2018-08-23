@@ -16,16 +16,16 @@ class LayoutManager{
     let _layout = CONFIG.LAYOUT.RIBBON.TOOLBAR["UI_2D_DRAW"];
     let _tools = CONFIG.TOOLS;
     let toolbar = React.createElement(Toolbar, {className: "ribbonContainer", id: "drawtoolbar", name: "Raster Graphics", 
-                handleClick : null, items: _layout, itemProps: _tools});
+                handleClick : null, items: _layout, itemProps: _tools, radioGroup: "tools"});
 
     _layout = CONFIG.LAYOUT.RIBBON.TOOLBAR["UI_2D_EDIT"];
     let toolbarEdit = React.createElement(Toolbar, {className: "ribbonContainer", id: "edittoolbar", name: "Edit", 
-                handleClick : null, items: _layout, itemProps: _tools});
+                handleClick : null, items: _layout, itemProps: _tools, radioGroup: "tools"});
 
     let _colorLayout = CONFIG.LAYOUT.RIBBON.TOOLBAR["UI_COLOR_BAR"];
     let _colors = CONFIG.COLORS.supportedColors.colors;
-    let colorBar = React.createElement(ColorBar, {className: "ribbonContainer", id: "colorbar", name: "Colors", handleClick: null, items: _colorLayout,
-                  itemProps: _colors});
+    let colorBar = React.createElement(ColorBar, {className: "ribbonContainer", id: "colorbar", name: "colors", handleClick: null, items: _colorLayout,
+                  itemProps: _colors, radioGroup: "colors"});
 
     let div = React.createElement("div", null, toolbar, toolbarEdit, colorBar);
     ReactDOM.render(div, document.getElementById("top"));
@@ -43,6 +43,7 @@ class Toolbar extends React.Component{
     let items = this.props.items;
     let itemProps = this.props.itemProps;
     this.name = this.props.name;
+    this.radioGroup = this.props.radioGroup;
 
     this.loadedToolProps = [];
 
@@ -52,6 +53,7 @@ class Toolbar extends React.Component{
     	if(tool && tool.load == true){
     		let prop = {};
     		prop.name = this.name;
+        prop.radioGroup = this.radioGroup;
     		prop.id = id;
     		prop.key = id;
     		prop.isChecked = false;
@@ -112,6 +114,7 @@ class ColorBar extends React.Component{
     let items = this.props.items;
     let itemProps = this.props.itemProps;
     this.name = this.props.name;
+    this.radioGroup = this.props.radioGroup;
 
     this.loadedColorProps = [];
 
@@ -197,7 +200,7 @@ class Tool extends React.Component {
 
   render() {
   	let props = {
-  			name: this.props.name, className:"tool", checked : this.state.checked,
+  			name: this.props.radioGroup, className:"tool",/* checked : this.state.checked,*/
         	id : this.props.id, type : "radio", onClick : this.toggle.bind(this)
     	};
 
@@ -239,7 +242,7 @@ class Color extends React.Component {
 
   render() {
     let props = {
-        name: this.props.name, className:"colors", checked : this.state.checked,
+        name: this.props.radioGroup, className:"colors", checked : this.state.checked,
           id : this.props.id, type : "radio", onClick : this.toggle.bind(this)
       };
 

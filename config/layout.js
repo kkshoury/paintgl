@@ -7,7 +7,7 @@ CONFIG.LAYOUT.RIBBON = CONFIG.LAYOUT.RIBBON || {};
 CONFIG.LAYOUT.RIBBON.TOOLBAR = {
 	"UI_2D_DRAW":
 	{
-		name: "Draw",
+		name: "tools",
 		maxColumnCountAbsolute: 7,
 		maxColumnCountRatio: 2,
 		list: [
@@ -29,7 +29,7 @@ CONFIG.LAYOUT.RIBBON.TOOLBAR = {
 	},
 	"UI_2D_EDIT":
 	{
-		name: "Edit",
+		name: "tools",
 		maxColumnCountAbsolute: 7,
 		maxColumnCountRatio: 2,
 		list: [
