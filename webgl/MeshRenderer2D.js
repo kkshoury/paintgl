@@ -9,7 +9,7 @@ class MeshRenderer2D {
 		let aColor;
 		let aMat3;
 
-		let models = [];
+		let models = new Set();
 		
 		this.on = on;
 
@@ -69,28 +69,51 @@ class MeshRenderer2D {
 		}
 
 		this.addModel = function(model){
-			models.push(model);
+			if(!models || !model){
+				return false;
+			}
+
+			models.add(model);
+			if(model.notifyDirty){
+				model.notifyDirty(bufferUnit);
+			}
+
 			bufferUnit.addFloat32DataSource(model);
 			buffersReady = false;
-			return 0;
+			return true;
 		}
 
 
-		this.update = function(model){
-			bufferUnit.setVertexData(null);
-			bufferUnit.setColorData(null);
-			bufferUnit.setMat4Data(null);
-
-			bufferUnit.generateFloat32Data();
+		this.reset = function(model){
+			programCreated = false;
 			buffersReady = false;
+			bufferUnit = new BufferUnit();
+		
+			program = null;
+			aPosition = null; 
+			aColor = null;
+			aMat3 = null;
+
+			models = new Set();
+		
 		}
 
-		this.removeModels = function(){
-			bufferUnit.clear();
-			models = [];
-			// models = [];
+		this.removeModel = function(model){
+			if(!model || !models){
+				return false;
+			}
+
+			let val = models.delete(model);
+			if(val){
+				bufferUnit.removeFloat32DataSource(model);
+				model.removeDirtyListener(bufferUnit);
+				return true;
+			}
+
+			return false;
 		}
 
+	
 		this.render = function(gl, input){
 			if(models.length == 0){
 				return;
@@ -103,7 +126,7 @@ class MeshRenderer2D {
 				}
 			}
 
-			if(!buffersReady){
+			if(bufferUnit.isDirty()){
 				buffersReady = initBuffers(gl);
 
 				if(buffersReady != true){

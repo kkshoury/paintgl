@@ -52,18 +52,14 @@ class ToolManager{
 		}
 		
 		if(this.activeTool != null){
-			if(this.activeTool.commit){
-				this.activeTool.commit();
-			}
-
-			if(this.activeTool.stop){
-				this.activeTool.stop();
+			if(this.activeTool.deactivate){
+				this.activeTool.deactivate();
 			}
 		}
 
 		this.activeTool = this.tools[toolId];
-		if(this.activeTool.start){
-			this.activeTool.start();
+		if(this.activeTool.activate){
+			this.activeTool.activate();
 		}
 			
 	}

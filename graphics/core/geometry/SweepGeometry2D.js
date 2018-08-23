@@ -21,13 +21,24 @@ class SweepGeometry2D{
 				return;
 			}
 			this.__notifyList.forEach(target => {
-				if(target.setDirty){
-					target.setDirty();
+				if(target.notifyDirty){
+					target.notifyDirty();
 				}
 			});
 		}
 	}
 
+	removeDirtyListener(target){
+			if(!target){
+				return;
+			}
+			
+			let index = this.__notifyList.indexOf(target);
+			if(index != -1){
+				this.__notifyList.splice(index, 1);
+			}
+		}
+		
 	setShape(geoemtry2D){
 		this.shape = geoemtry2D;
 		this.triangulation = null;
@@ -40,7 +51,7 @@ class SweepGeometry2D{
 	setPath(path){
 		this.path = path;
 		this.triangulation = null;
-		if(path.notifyDirty){
+		if(path && path.notifyDirty){
 			path.notifyDirty(this);
 		}
 		this.notifyDirty();

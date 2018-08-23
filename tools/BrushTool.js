@@ -43,9 +43,6 @@ class BrushTool{
 		if(e.key === leo.Keyboard.MINUS){
 			this.decrementBrushSize();
 			this.shape.setDimensions(0, 0, this.brushSize * 0.03, this.brushSize * 0.03 * 600/800.0);
-			if(this.brushModel){
-				this.brushModel.update();
-			}
 			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 		}
@@ -53,9 +50,6 @@ class BrushTool{
 		if(e.key === leo.Keyboard.PLUS){
 			this.increamentBrushSize();
 			this.shape.setDimensions(0, 0, this.brushSize * 0.03, this.brushSize * 0.03 * 600/800.0);
-			if(this.brushModel){
-				this.brushModel.update();
-			}
 			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 		}
@@ -79,20 +73,16 @@ class BrushTool{
 	setColor(c){
 		if(this.sweepModel){
 			this.sweepModel.setColor(c);
-			this.sweepModel.update();
-
 		}
 
 		if(this.brushModel){
 			this.brushModel.setColor(c);
-			this.brushModel.update();
-			
 		}
 
 		this.brushColor  = c;
 	}
 
-	start(){
+	activate(){
 		let layer = leo.Advanced2D.RasterLayerManager.orderedLayers[0];
 		this.fb = new FrameBuffer({
 			"textureId" : layer.texture.id, 
@@ -102,11 +92,13 @@ class BrushTool{
 
 		this.sweep = new SweepGeometry2D();
 		this.sweep.setShape(this.shape);
+		this.sweep.setPath(null);
 		
 		
 		this.sweepModel = new Model();
 		this.sweepModel.addGeometry(this.sweep);
-		this.sweepModel.setRenderer(this.renderer);
+		this.renderer.addModel(this.sweepModel);
+
 		if(this.brushColor){
 			this.sweepModel.setColor(this.brushColor);
 			
@@ -119,13 +111,17 @@ class BrushTool{
 			
 		}
 
-		this.brushModel.setRenderer(this.renderer);
+		this.renderer.addModel(this.brushModel);
 		leo.Engine.RenderingEngine2D.addRenderer(this.renderer, 2);
 
 
 	}
 
-	stop(){
+	deactivate(){
+		this.sweep.setPath(null);
+		this.renderer.removeModel(this.brushModel);
+		this.renderer.removeModel(this.sweepModel);
+		leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 	}
 
@@ -135,13 +131,8 @@ class BrushTool{
 		this.line = setMousePositionFromEvent(e, this.line, 0);
 		this.sampleCount++;
 
-		this.sweep = new SweepGeometry2D();
-		this.sweep.setShape(this.shape);
+		this.sweep.setPath(null);
 		
-		
-		this.sweepModel = new Model();
-		this.sweepModel.addGeometry(this.sweep);
-		this.sweepModel.setRenderer(this.renderer);
 		if(this.brushColor){
 			this.sweepModel.setColor(this.brushColor);
 		}
@@ -149,65 +140,48 @@ class BrushTool{
 
 	onMouseMove(e){
 		this.brushModel.translate(e.clipX, e.clipY);
-		this.brushModel.update();
 		if(!this.mouseIsDown){
 			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 		}
 
-
 		if(!this.mouseIsDown){
 			return;
 		}
+
 		this.mouseHasNotMoved = false;
 		this.line = setMousePositionFromEvent(e, this.line, this.sampleCount*2);
 
 		this.sweep.addToPath(e.clipX, e.clipY);
-		this.sweepModel.update();
 
-		// this.handle = this.pathManager.addTempLine(
-		// 	this.line[(this.sampleCount-1)*2],
-		// 	this.line[(this.sampleCount-1)*2 + 1],
-		// 	this.line[(this.sampleCount)*2],
-		// 	this.line[(this.sampleCount)*2 + 1]
-
-		// );
 		this.sampleCount++;
 		leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 	}
 
 	onMouseUp(e){
 		if(this.mouseIsDown && this.sampleCount > 0){
-			this.renderer.target = this.fb.id;
-			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
-			this.renderer.target = null;
-			this.renderer.removeModels();
-			this.brushModel.setRenderer(this.renderer);
-			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
-
-			this.commit();
-			this.mouseIsDown = false;
-
-
+			this.commitToLayer();
 		}
 		else {
-			// this.pathManager.removeTempLines();
 			if(this.line.length > 10000){
 				this.line = [];
 			}
 			
-			this.sampleCount = 0;
 
 		}
 
+		this.sampleCount = 0;
 		this.mouseIsDown = false;
 	}
 
-	commit(){
-		// this.pathManager.commitPathToLayer(this.handle);
+	commitToLayer(){
+		this.renderer.removeModel(this.brushModel);
+		this.renderer.target = this.fb.id;
 		leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
-		// this.pathManager.removeTempLines();
-		this.mouseIsDown = false;
-		this.sampleCount = 0;
+		this.renderer.target = null;
+		this.renderer.addModel(this.brushModel);
+		this.sweep.setPath(null);
+		leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 	}
+
 
 }

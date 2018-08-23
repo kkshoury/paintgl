@@ -20,6 +20,7 @@ class BufferUnit{
 		this.dirty = true;
 		leo.Events.EventEmitter.shout("BUFFER_UNIT_CREATED", this, "BUFFERS");
 		this.__ready = false;
+		this.__src = [];
 	}
 
 	setVertexData(float32array){
@@ -117,6 +118,27 @@ class BufferUnit{
 		this.setDirty(true);
 	}
 
+	removeFloat32DataSource(src){
+		if(!this.__src || !src){
+			return false;
+		}
+
+		let index = this.__src.indexOf(src);
+		if(index == -1){
+			return false;
+		}
+
+		let val = this.__src.splice(index, 1);
+		if(val){
+			this.setDirty(true);
+			this.__ready = false;
+			return true;
+		}
+
+		return false;
+
+	}
+
 	clear(){
 		this.vertexData = null;
 		this.colorData = null;
@@ -135,6 +157,12 @@ class BufferUnit{
 
 		this.__src = [];
 	}
+
+	notifyDirty(){
+		this.__ready = false;
+		this.dirty = true;
+	}
+
 	generateFloat32Data(){
 		if(this.__ready){
 			return;
@@ -183,6 +211,7 @@ class BufferUnit{
 		this.setColorData(cfloat32);
 		this.setMat4Data(mfloat32);
 		this.__ready = true;
+		this.setDirty(false);
 	}		
 
 }

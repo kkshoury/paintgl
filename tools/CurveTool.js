@@ -66,23 +66,28 @@ class CurveTool{
 
 		if(this.curveModel){
 			this.curveModel.setColor(this.curveColor);
-			this.curveModel.update();
 		}
 	}
 
-	start(){
+	activate(){
 		this.curveSize = 1;
 		this.state = this.STATE_DRAW_LINE;
-		this.curveModel.setRenderer(this.meshRenderer);
 		this.sweep = new SweepGeometry2D();
 		this.sweep.setShape(this.shape);
+
+		this.curveModel = new Model();
 		this.curveModel.addGeometry(this.sweep);
+		this.meshRenderer.addModel(this.curveModel);
 		leo.Engine.RenderingEngine2D.addRenderer(this.meshRenderer, 3);
 		this.curveModel.setColor(this.curveColor);
 		leo.Events.EventEmitter.listen(this.keyPressed.bind(this), "KEY_DOWN", "USER_KEY_INPUT");
 		
 	}
 
+	deactivate(){
+		this.meshRenderer.removeModel(this.curveModel);
+	}
+	
 	commit(){
 		this.state = this.STATE_DRAW_LINE;
 		this.controlPointCount = 0;
@@ -96,11 +101,9 @@ class CurveTool{
 			this.meshRenderer.target = this.fb.id;
 			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 			this.meshRenderer.target = null;
+			this.sweep.setPath(null);
 			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 		}
-		
-		this.curveModel.setRenderer(null);
-		
 
 	}
 
@@ -163,8 +166,7 @@ class CurveTool{
 			curve.setControlPoints(this.line);
 			let vert = curve.getVertices();
 			this.sweep.setPath(vert);
-			this.curveModel.setRenderer(this.meshRenderer);
-			this.curveModel.update();
+			// this.meshRenderer.addModel(this.curveModel);
 
 			// leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
@@ -286,19 +288,12 @@ class CurveTool{
 		if(e.key === leo.Keyboard.MINUS){
 			this.decrementCurveSize();
 			this.shape.setDimensions(0, 0, this.curveSize * 0.01, this.curveSize * 0.01 * 600/800.0);
-			if(this.curveModel){
-				this.curveModel.update();
-			}
 			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
-
 		}
 
 		if(e.key === leo.Keyboard.PLUS){
 			this.increamentCurveSize();
 			this.shape.setDimensions(0, 0, this.curveSize * 0.01, this.curveSize * 0.01 * 600/800.0);
-			if(this.curveModel){
-				this.curveModel.update();
-			}
 			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 		}
@@ -339,7 +334,6 @@ class CurveTool{
 			curve.setControlPoints(this.line);
 			let vert = curve.getVertices();
 			this.sweep.setPath(vert);
-			this.curveModel.update();
 
 			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 

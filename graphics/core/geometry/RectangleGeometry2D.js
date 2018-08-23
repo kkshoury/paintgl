@@ -21,10 +21,21 @@ class RectangleGeometry2D{
 			}
 
 			this.__notifyList.forEach(target => {
-				if(target.setDirty){
-					target.setDirty();
+				if(target.notifyDirty){
+					target.notifyDirty();
 				}
 			});
+		}
+	}
+
+	removeDirtyListener(target){
+		if(!target){
+			return;
+		}
+		
+		let index = this.__notifyList.indexOf(target);
+		if(index != -1){
+			this.__notifyList.splice(index, 1);
 		}
 	}
 

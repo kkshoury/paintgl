@@ -16,7 +16,7 @@ class Model{
 		this.__normals = null;
 		this.__bbMin = null;
 		this.__bbMax = null;
-		this.__renderer = null;
+		// this.__renderer = null;
 		this.__requiresRebuffer = true;
 
 		this.__dirty = true;
@@ -44,11 +44,22 @@ class Model{
 			}
 			
 			this.__notifyList.forEach(target => {
-				if(target.setDirty){
-					target.setDirty();
+				if(target.notifyDirty){
+					target.notifyDirty();
 				}
 			});
 
+		}
+	}
+
+	removeDirtyListener(target){
+		if(!target){
+			return;
+		}
+
+		let index = this.__notifyList.indexOf(target);
+		if(index != -1){
+			this.__notifyList.splice(index, 1);
 		}
 	}
 
@@ -59,25 +70,44 @@ class Model{
 		this.__dirty = true;
 	}
 
+
 	classId() {return "MODEL2D";}
 	static staticClassId() {return "MODEL2D";}
 
 	addModel(model2D){
 		if(!this.__models){
-			this.models = [];
+			this.__models = new Set();
 		}
 		if(model2D && model2D.classId() == Model2D.staticClassID()){
-			this.__models.push(model2D);
+			this.__models.add(model2D);
 			if(model2D.notifyDirty){
 				model2D.notifyDirty(this);
 			}
+			this.setDirty();
+			this.notifyDirty();
 			return true;
 		}
 		else { 
 			return false;
 		}
 
-		this.setDirty();
+		
+	}
+
+	removeModel(model){
+		if(!this.__models || !model || !this.__models.has(model)){
+			return false;
+		}
+
+		let val = this.__models.delete(model);
+		if(val){
+			this.setDirty();
+			this.notifyDirty();
+			return true;
+		}
+
+		return false;
+		
 	}
 
 	addGeometry(g){
@@ -93,20 +123,39 @@ class Model{
 		this.setDirty();
 	}
 
-	setRenderer(renderer){
-		if(renderer == null){
-			this.__renderer.removeModels();
-			return;
+	removeGeometry(g){
+		if(!this.__geometry){
+			return false;
 		}
 
-		if(this.__renderer != null){
-			//remove from renderer
+		let index = this.__geometry.getIndex(g);
+		if(index == -1){
+			return false;
 		}
 
-		this.__renderer = renderer;
-		//inform renderer
-		renderer.addModel(this);
+		let  geo = this.__geometry.splice(index, 1);
+		
+		if(geo){
+			this.setDirty();
+			this.notifyDirty();
+			return true;
+		}
+		return false;
 	}
+	// setRenderer(renderer){
+	// 	if(renderer == null){
+	// 		this.__renderer.removeModel(this);
+	// 		return;
+	// 	}
+
+	// 	this.__renderer = renderer;
+	// 	//inform renderer
+	// 	let res = renderer.addModel(this);
+		
+	// 	if(!res){
+	// 		log("model cannot be added to renderer");
+	// 	}
+	// }
 
 
 	getVertexFloat32Array(){
@@ -185,17 +234,25 @@ class Model{
 	}
 
 	translate (x, y, z){
+		this.notifyDirty();
 		let m = this.getMat4Float32Array();
 		for(var i = 0; i < m.length/9; i++){
 			m[i * 9 + 2] = x;
 			m[i * 9 + 5] = y;
 			
 		}
+
 	}
 
-	update(){
-		if(this.__renderer){
-			this.__renderer.update(this);
-		}
+	// update(){
+	// 	if(this.__renderer){
+	// 		this.__renderer.update(this);
+	// 	}
+	// }
+
+	dispose(){
+		this.__geometry = [];
+		this.__models = [];
+		this.setRenderer(null);
 	}
 }
