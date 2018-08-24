@@ -82,17 +82,19 @@ function compileShader(gl, shaderSource, shaderType) {
 }
 
 let simpleVertexShaderCode = 
-	    "attribute vec2 a_position;" 
-	+   "void main() {"
-	+ 	  "gl_Position = vec4(a_position, 0.0, 1.0);"
-	+ 	  "gl_PointSize = 6.0;"
-	+"}"
+	    "attribute vec2 a_position;"
+  +   "void main() {"
+  +     "gl_Position = vec4(a_position, 0.0, 1.0);"
+  +     "gl_PointSize = 6.0;"
+  +"}"
 
   let simpleVertexShaderColorCode = 
       "attribute vec2 a_position;" 
   +   "uniform vec4 u_color;"
+      +"varying vec3 v_pos;" 
   +   "varying vec4 v_color;"
   +   "void main() {"
+  +     " v_pos = vec3(a_position, 0.0);"
   +     "v_color = u_color;"
   +     "gl_Position = vec4(a_position, 0.0, 1.0);"
   +     "gl_PointSize = 6.0;"
@@ -100,8 +102,10 @@ let simpleVertexShaderCode =
 
 let simpleFragmentShaderCode =     
 	   "precision mediump float;"
+      +"varying vec3 v_pos;" 
     + "varying vec4 v_color;"
     + "void main() {"
+    // +   "gl_FragColor = v_color * max(0.0, sin(150.0 * dot(v_pos.xy, vec2(1, 1))));"
     + 	"gl_FragColor = v_color;"
     + "}";
 

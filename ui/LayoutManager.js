@@ -15,7 +15,7 @@ class LayoutManager{
   drawUI(){
     let _layout = CONFIG.LAYOUT.RIBBON.TOOLBAR["UI_2D_DRAW"];
     let _tools = CONFIG.TOOLS;
-    let toolbar = React.createElement(Toolbar, {className: "ribbonContainer", id: "drawtoolbar", name: "Raster Graphics", 
+    let toolbar = React.createElement(Toolbar, {className: "ribbonContainer", id: "drawtoolbar", name: "Draw", 
                 handleClick : null, items: _layout, itemProps: _tools, radioGroup: "tools"});
 
     _layout = CONFIG.LAYOUT.RIBBON.TOOLBAR["UI_2D_EDIT"];
@@ -130,6 +130,7 @@ class ColorBar extends React.Component{
         prop.r = color.r;
         prop.g = color.g;
         prop.b = color.b;
+        prop.radioGroup = "mycolors";
 
         if(color.enabled == false){
           prop.disabled = true;
@@ -195,7 +196,6 @@ class Tool extends React.Component {
       });
 
       leo.Events.EventEmitter.shout("TOOL_SELECTED", this.state, "UI_TOOLS");
-    	// leo.ControlManagers.ToolManager.setActiveTool(this.state.toolClass);
    }
 
   render() {
@@ -224,7 +224,8 @@ class Color extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      checked: this.props.isChecked
+      checked: this.props.isChecked,
+      radioGroup: this.props.radioGroup
     };
   }
 
@@ -237,12 +238,12 @@ class Color extends React.Component {
       [this.props.r/255.0, this.props.g / 255.0, this.props.b / 255.0, 1.0],
       "UI"
       );
-      leo.ArtManagers2D.PathManager2D.setLineColor(this.props.r/255.0, this.props.g / 255.0, this.props.b / 255.0, 1.0);
+      leo.ArtManagers2D.PathManager2D.setLineColor(this.props.r/256.0, this.props.g / 256.0, this.props.b / 256.0, 1.0);
    }
 
   render() {
     let props = {
-        name: this.props.radioGroup, className:"colors", checked : this.state.checked,
+        name: this.state.radioGroup, className:"colors", checked : this.state.checked,
           id : this.props.id, type : "radio", onClick : this.toggle.bind(this)
       };
 

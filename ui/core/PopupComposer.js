@@ -4,7 +4,7 @@ class PopupComposer{
 	}
 
 
-	preInit(config){
+	preInitConfiguration(config){
 
 	}
 

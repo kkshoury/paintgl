@@ -4,7 +4,7 @@ class PopupMenu{
 	}
 
 
-	preInit(config){
+	preInitConfiguration(config){
 
 	}
 

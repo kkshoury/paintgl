@@ -3,7 +3,7 @@ class Commander{
 		this.__commands = null;
 	}
 
-	preInit(config, progress){
+	preInitConfiguration(config, progress){
 		let commands = config.Commands;
 
 	}

@@ -67,6 +67,8 @@ class CurveTool{
 		if(this.curveModel){
 			this.curveModel.setColor(this.curveColor);
 		}
+		
+		leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 	}
 
 	activate(){

@@ -2,15 +2,18 @@ class RasterLayerManager{
 
 	constructor(){
 		this.orderedLayers = [];
+		this.w;
+		this.h;
 	}
 
-	preInitConfiguration(){
-
+	preInitConfiguration(config){
+		this.w = config.SETTINGS.GRAPHICS.canvasWidth;
+		this.h = config.SETTINGS.GRAPHICS.canvasHeight;
 	}
 
-	init(){
+	init(paintgl){
 		this.renderer = new RasterLayerRenderer();
-		let layer = this.addLayer("default", 800, 600, 0);
+		let layer = this.addLayer("default", this.w, this.h, 0);
 		this.renderer.input = layer.texture.id;
 		
 

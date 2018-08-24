@@ -23,7 +23,6 @@ leo.start = function(config){
 		return;
 	}
 
-	leo.loadUI();
 	let result = init(config);
 
 	if(!result){
@@ -79,14 +78,4 @@ function init(config){
 	
 	return true;
 
-}
-
-leo.loadUI = function(){
-	// let canvas = document.createElement("canvas");
-	// canvas.id = "canvas";
-	// canvas.width = 800;
-	// canvas.height = 600;
-	// document.getElementById("maindiv").append(canvas);
-
-	
 }

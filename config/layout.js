@@ -47,9 +47,9 @@ CONFIG.LAYOUT.RIBBON.TOOLBAR = {
 		maxColumnCountRatio: 2,
 		list: [
 			{id: "black"}, {id: "white"}, {id: "red"}, {id: "green"}, {id: "blue"}, {id: "yellow"},
-			{id: "0"}, {id: "1"}, {id: "2"}, {id: "3"}, {id: "4"}, {id: "5"}, {id: "6"}, {id: "7"}, 
-			{id: "8"}, {id: "9"}, {id: "10"}, {id: "11"}, {id: "12"}, {id: "13"}, {id: "14"}, 
-			{id: "15"}, {id: "16"} ,{id: "17"}, {id: "18"}, {id: "19"}, {id: "20"}, {id: "21"}
+			{id: "color-0"}, {id: "color-1"}, {id: "color-2"}, {id: "color-3"}, {id: "color-4"}, {id: "color-5"}, {id: "color-6"}, {id: "color-7"}, 
+			{id: "color-8"}, {id: "color-9"}, {id: "color-10"}, {id: "color-11"}, {id: "color-12"}, {id: "color-13"}, {id: "color-14"}, 
+			{id: "color-15"}, {id: "color-16"} ,{id: "color-17"}, {id: "color-18"}, {id: "color-19"}, {id: "color-20"}, {id: "color-21"}
 		]
 	}
 	

@@ -4,7 +4,7 @@ class PopupDialog{
 	}
 
 
-	preInit(config){
+	preInitConfiguration(config){
 
 	}
 

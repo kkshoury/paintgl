@@ -161,12 +161,17 @@ canvas {
 .colors {
 	display: none;
 }
+
 .colors + label{
 	border-style: none;
 	background-repeat: no-repeat;
-	width: 32px;
-	height: 32px;
+	width: 16px;
+	height: 16px;
 	margin: 1px;
+}
+
+.colors:checked + label{
+	border: 1px solid rgb(0, 0, 0, 1);
 }
 
 .tool:hover + label{

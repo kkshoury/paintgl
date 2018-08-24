@@ -52,7 +52,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"0":
+		"color-0":
 		{
 			r: 128,
 			g: 255, 
@@ -60,7 +60,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"1":
+		"color-1":
 		{
 			r: 0,
 			g: 255, 
@@ -68,7 +68,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"2":
+		"color-2":
 		{
 			r: 128,
 			g: 255, 
@@ -76,7 +76,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"3":
+		"color-3":
 		{
 			r: 0,
 			g: 128, 
@@ -84,7 +84,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"4":
+		"color-4":
 		{
 			r: 255,
 			g: 128, 
@@ -92,7 +92,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"5":
+		"color-5":
 		{
 			r: 128,
 			g: 64, 
@@ -100,7 +100,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"6":
+		"color-6":
 		{
 			r: 255,
 			g: 128, 
@@ -108,7 +108,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"7":
+		"color-7":
 		{
 			r: 0,
 			g: 128, 
@@ -116,7 +116,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"8":
+		"color-8":
 		{
 			r: 0,
 			g: 0, 
@@ -124,7 +124,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"9":
+		"color-9":
 		{
 			r: 128,
 			g: 0, 
@@ -132,7 +132,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"10":
+		"color-10":
 		{
 			r: 128,
 			g: 0, 
@@ -140,7 +140,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"11":
+		"color-11":
 		{
 			r: 64,
 			g: 0, 
@@ -148,7 +148,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"12":
+		"color-12":
 		{
 			r: 0,
 			g: 64, 
@@ -156,7 +156,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"13":
+		"color-13":
 		{
 			r: 0,
 			g: 0, 
@@ -164,7 +164,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"14":
+		"color-14":
 		{
 			r: 64,
 			g: 0, 
@@ -172,7 +172,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"15":
+		"color-15":
 		{
 			r: 128,
 			g: 128, 
@@ -180,7 +180,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"16":
+		"color-16":
 		{
 			r: 128,
 			g: 128, 
@@ -188,7 +188,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"17":
+		"color-17":
 		{
 			r: 64,
 			g: 128, 
@@ -196,7 +196,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"18":
+		"color-18":
 		{
 			r: 192,
 			g: 192, 
@@ -204,7 +204,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"19":
+		"color-19":
 		{
 			r: 255,
 			g: 255, 
@@ -212,7 +212,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"20":
+		"color-20":
 		{
 			r: 128,
 			g: 0, 
@@ -220,7 +220,7 @@ CONFIG.COLORS.supportedColors={
 			load: true,
 			enabled: true
 		},
-		"21":
+		"color-21":
 		{
 			r: 200,
 			g: 0, 
