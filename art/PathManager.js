@@ -4,14 +4,29 @@ class PathManager2D {
 
 	constructor(){
 		var __tempLines = [];
-		var __tempLineCount = 0;
 		this.lineRenderer = new LineRenderer();
+		this.thickness = 0;
 	
 		var __handle = 0;
 		var __committedHandles = [];
 		var __tempHandles = [];
+		var __sweeps = [];
+		var __added = false;
 		function getNewLineHandle(){
 			return __handle++;
+		}
+
+		this.updateLinesWithThickness = function(){
+			if(this.thickness == 0){
+				this.pathModel.dispose();
+				// this.meshRenderer.removeModel(this.pathModel);
+				return;
+			}
+
+			else {
+				this.shape.setDimensions(0, 0, this.thickness, this.thickness);
+			}
+
 		}
 
 		this.addTempLine = function(x1, y1, x2, y2){
@@ -24,12 +39,20 @@ class PathManager2D {
 				__tempLines[handle*4 + i] = arguments[i];
 			}
 
+			let sweep = new SweepGeometry2D();
+			sweep.setShape(this.shape);
+			sweep.addToPath(x1, y1);
+			sweep.addToPath(x2, y2);
+
+			this.pathModel.addGeometry(sweep);
+
 			this.lineRenderer.addTempLine([
 				__tempLines[handle*4],
 				__tempLines[handle*4 + 1],
 				__tempLines[handle*4 + 2],
 				__tempLines[handle*4 + 3] 
 				]);
+
 
 			return handle++;
 		}
@@ -38,6 +61,8 @@ class PathManager2D {
 			__tempLines = [];
 			__handle = 0;
 			this.lineRenderer.removeTempLine();
+			// this.meshRenderer.removeModel(this.pathModel);
+			this.pathModel.dispose();
 		}
 
 		this.commitPathToLayer = function(){
@@ -53,13 +78,24 @@ class PathManager2D {
 			__tempLines = [];
 			__handle = 0;
 
-			this.lineRenderer.target = this.fb.id;
+			if(this.thickness == 0){
+				this.lineRenderer.target = this.fb.id;
+			}
+			else {
+				this.meshRenderer.target = this.fb.id;
+			}
+
 			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 			this.lineRenderer.target = null;
+			this.meshRenderer.target = null;
+			this.pathModel.dispose();
 			this.lineRenderer.clearLines();
+
 		}
 		
 		this.removeAllPaths = function(){
+			// this.meshRenderer.removeModel(this.pathModel);
+			this.pathModel.dispose();
 			this.lineRenderer.clearLines();
 			__tempLines = [];
 			__handle = 0;
@@ -67,6 +103,30 @@ class PathManager2D {
 	}
 
 	
+	setThickness(size){
+		this.thickness = size;
+		this.updateLinesWithThickness();
+	}
+
+	increamenThickness(){
+		if(this.thickness < 0.2){
+			this.thickness+= 0.02;
+		}
+		else {
+			this.thickness = 0.2;
+		}
+		this.updateLinesWithThickness();
+
+	}
+
+	decrementThickness(){
+		this.thickness-=-0.02;
+		if(this.thickness < 0){
+			this.thickness = 0;
+		}
+		this.updateLinesWithThickness();
+
+	}
 
 	init(leo){
 	}
@@ -83,11 +143,20 @@ class PathManager2D {
 	}
 
 	start(){
-		this.lineRenderer.setLineColor(0.0, 0.0, 0.0, 1.0);
+		this.shape = new RectangleGeometry2D();
+		
+		this.pathModel = new Model();
+		this.meshRenderer = new MeshRenderer2D();
+		this.meshRenderer.addModel(this.pathModel);
+		this.setThickness(0.005);
+		this.setLineColor(0.0, 0.0, 0.0, 1.0);
+		leo.Engine.RenderingEngine2D.addRenderer(this.meshRenderer, 3);
+
 	}
 
 	setLineColor(r, g, b, a){
 		this.lineRenderer.setLineColor(r, g, b, a);
+		this.pathModel.setColor([r, g, b, a]);
 		leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 	}
 

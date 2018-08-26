@@ -135,6 +135,10 @@ class MeshRenderer2D {
 				}
 			}
 
+			if(bufferUnit.getVertexData().length == 0){
+				return false;
+			}
+
 			gl.useProgram(program);
 
 			gl.enableVertexAttribArray(aPosition);

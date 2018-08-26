@@ -120,7 +120,7 @@ class Model{
 			g.notifyDirty(this);
 		}
 
-		this.setDirty();
+		this.notifyDirty();
 	}
 
 	removeGeometry(g){
@@ -163,13 +163,18 @@ class Model{
 			return this.vertexFloat32Array;
 		}
 
+		if(!this.__geometry){
+			return new Float32Array();
+		}
+
 		let ver = [];
 		this.__geometry.forEach(g => {
 			let tr = g.triangulate();
-			tr.forEach(v => {
-				ver.push(v);
-				
-			});
+			if(tr){
+				 tr.forEach(v => {
+					ver.push(v);
+				});
+			}
 		});
 
 		this.vertexFloat32Array = new Float32Array(ver); 
@@ -253,6 +258,7 @@ class Model{
 	dispose(){
 		this.__geometry = [];
 		this.__models = [];
-		this.setRenderer(null);
+		// this.setRenderer(null);
+		this.notifyDirty();
 	}
 }

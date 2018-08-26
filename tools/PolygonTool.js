@@ -58,10 +58,10 @@ class PolygonTool{
 
 		for(var i = 0; i < this.vertexCount-1 && this.vertexCount > 1 ; i++){
 			this.pathManager.addTempLine(
-				this.line[i*2],
-				this.line[i*2 + 1],
-				this.line[(i+1)*2],
-				this.line[(i+1)*2 + 1]
+				this.line[i * 2],
+				this.line[i * 2 + 1],
+				this.line[(i + 1) * 2],
+				this.line[(i + 1) * 2 + 1]
 				);
 
 		}
@@ -78,7 +78,7 @@ class PolygonTool{
 		this.mouseDidntMove = false;
 
 
-		this.pathManager.removeTempLines(); // give it id
+		this.pathManager.removeTempLines();
 		this.controlPointsManager.clearControlPoints();
 		if(this.vertexCount > 1){
 			this.line = setMousePositionFromEvent(e, this.line, (this.vertexCount-1)*2);
@@ -87,7 +87,7 @@ class PolygonTool{
 			this.line = setMousePositionFromEvent(e, this.line, (this.vertexCount)*2);
 			this.vertexCount ++;
 		}
-		for(var i = 0; i < this.vertexCount -1 ; i++){
+		for(var i = 0; i < this.vertexCount -1  && this.vertexCount > 1; i++){
 			this.pathManager.addTempLine(
 				this.line[i*2],
 				this.line[i*2 + 1],

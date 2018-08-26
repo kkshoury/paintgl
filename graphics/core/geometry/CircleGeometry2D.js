@@ -43,7 +43,7 @@ class CircleGeometry2D{
 	setDimensions(x, y, a, b){
 		this.x = 0;
 		this.y = y;
-		this.r = r;
+		this.r = a;
 
 		this.triangulation = null;
 

@@ -47,7 +47,7 @@ class ControlPointManager {
 	}
 
 	start(leo){
-		leo.Engine.RenderingEngine2D.addRenderer(this.__controlPointRenderer, 3);
+		leo.Engine.RenderingEngine2D.addRenderer(this.__controlPointRenderer, 4);
 
 	}
 	registerControlPoint(index, p){
