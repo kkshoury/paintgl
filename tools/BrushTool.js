@@ -25,7 +25,7 @@ class BrushTool{
 	init(){
 		// this.pathManager = leo.ArtManagers2D.PathManager2D;
 		this.shape = new RectangleGeometry2D();
-		this.shape.setDimensions(0, 0, this.brushSize * 0.03, this.brushSize * 0.03 * 600/800.0);
+		this.shape.setDimensions(0, 0, this.brushSize * 0.03, this.brushSize * 0.03 * 800/1200.0);
 		this.renderer = new MeshRenderer2D();
 		this.lineRenderer = new LineRenderer();
 		leo.Events.EventEmitter.listen(this.keyPressed.bind(this), "KEY_DOWN", "USER_KEY_INPUT");
@@ -42,14 +42,14 @@ class BrushTool{
 	keyPressed(e){
 		if(e.key === leo.Keyboard.MINUS){
 			this.decrementBrushSize();
-			this.shape.setDimensions(0, 0, this.brushSize * 0.03, this.brushSize * 0.03 * 600/800.0);
+			this.shape.setDimensions(0, 0, this.brushSize * 0.03, this.brushSize * 0.03 * 800/1200.0);
 			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 		}
 
 		if(e.key === leo.Keyboard.PLUS){
 			this.increamentBrushSize();
-			this.shape.setDimensions(0, 0, this.brushSize * 0.03, this.brushSize * 0.03 * 600/800.0);
+			this.shape.setDimensions(0, 0, this.brushSize * 0.03, this.brushSize * 0.03 * 800/1200.0);
 			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 		}

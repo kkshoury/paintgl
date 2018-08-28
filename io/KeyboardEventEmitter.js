@@ -32,5 +32,5 @@ class KeyboardEventEmitter {
 }
 
 leo.Keyboard = leo.Keyboard || {};
-leo.Keyboard.PLUS = 61;
-leo.Keyboard.MINUS = 173;
+leo.Keyboard.PLUS = 187; //61;
+leo.Keyboard.MINUS = 189; //173;

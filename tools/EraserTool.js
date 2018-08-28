@@ -23,7 +23,7 @@ class EraserTool{
 	init(){
 		// this.pathManager = leo.ArtManagers2D.PathManager2D;
 		this.shape = new RectangleGeometry2D();
-		this.shape.setDimensions(0, 0, 0.1, 0.1 * 600/800.0);
+		this.shape.setDimensions(0, 0, 0.1, 0.1 * 800/1200.0);
 		this.renderer = new MeshRenderer2D();
 		this.eraserModel = new Model();
 		this.eraserModel.addGeometry(this.shape);

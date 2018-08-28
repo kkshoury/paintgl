@@ -26,7 +26,7 @@ class CurveTool{
 		this.meshRenderer = new MeshRenderer2D();
 		this.sweep = null;
 		this.shape = new RectangleGeometry2D();
-		this.shape.setDimensions(0, 0, 0.01, 0.01 * 600/800.0);
+		this.shape.setDimensions(0, 0, 0.01, 0.01 * 800/1200.0);
 		this.curveModel = new Model();
 		leo.Events.EventEmitter.listen(this.setColor.bind(this),
 			"COLOR_CHANGED", 
@@ -289,13 +289,13 @@ class CurveTool{
 	keyPressed(e){
 		if(e.key === leo.Keyboard.MINUS){
 			this.decrementCurveSize();
-			this.shape.setDimensions(0, 0, this.curveSize * 0.01, this.curveSize * 0.01 * 600/800.0);
+			this.shape.setDimensions(0, 0, this.curveSize * 0.01, this.curveSize * 0.01 * 800/1200.0);
 			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 		}
 
 		if(e.key === leo.Keyboard.PLUS){
 			this.increamentCurveSize();
-			this.shape.setDimensions(0, 0, this.curveSize * 0.01, this.curveSize * 0.01 * 600/800.0);
+			this.shape.setDimensions(0, 0, this.curveSize * 0.01, this.curveSize * 0.01 * 800/1200.0);
 			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 
 		}

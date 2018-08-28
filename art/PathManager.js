@@ -6,26 +6,31 @@ class PathManager2D {
 		var __tempLines = [];
 		this.lineRenderer = new LineRenderer();
 		this.thickness = 0;
-	
+		var mint = 0.0025;
+		var maxt = 0.02;
+		var incrt = 0.002;
+
 		var __handle = 0;
 		var __committedHandles = [];
 		var __tempHandles = [];
 		var __sweeps = [];
 		var __added = false;
+
+
 		function getNewLineHandle(){
 			return __handle++;
 		}
 
 		this.updateLinesWithThickness = function(){
-			if(this.thickness == 0){
-				this.pathModel.dispose();
-				// this.meshRenderer.removeModel(this.pathModel);
-				return;
-			}
+			// if(this.thickness == 0){
+			// 	this.pathModel.dispose();
+			// 	// this.meshRenderer.removeModel(this.pathModel);
+			// 	return;
+			// }
 
-			else {
-				this.shape.setDimensions(0, 0, this.thickness, this.thickness);
-			}
+			// else {
+				this.shape.setDimensions(0, 0, this.thickness, this.thickness * 800/1200.0);
+			// }
 
 		}
 
@@ -78,13 +83,13 @@ class PathManager2D {
 			__tempLines = [];
 			__handle = 0;
 
-			if(this.thickness == 0){
-				this.lineRenderer.target = this.fb.id;
-			}
-			else {
-				this.meshRenderer.target = this.fb.id;
-			}
+			// if(this.thickness == 0){
+			// 	this.lineRenderer.target = this.fb.id;
+			// }
+			// else {
+			// }
 
+			this.meshRenderer.target = this.fb.id;
 			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
 			this.lineRenderer.target = null;
 			this.meshRenderer.target = null;
@@ -100,33 +105,38 @@ class PathManager2D {
 			__tempLines = [];
 			__handle = 0;
 		}	
+	
+		this.setThickness = function(size){
+			if(size < mint){
+				this.thickness = mint;
+			}
+			else {
+				this.thickness = size;
+			}
+			this.updateLinesWithThickness();
+		}
+
+		this.increamentThickness = function(){
+			this.thickness += incrt;
+			if(this.thickness > maxt){
+				this.thickness = maxt;
+			}
+			this.updateLinesWithThickness();
+
+		}
+
+		this.decrementThickness = function(){
+			this.thickness -= incrt;
+			if(this.thickness < mint){
+				this.thickness = mint;
+			}
+			this.updateLinesWithThickness();
+
+		}
 	}
 
 	
-	setThickness(size){
-		this.thickness = size;
-		this.updateLinesWithThickness();
-	}
-
-	increamenThickness(){
-		if(this.thickness < 0.2){
-			this.thickness+= 0.02;
-		}
-		else {
-			this.thickness = 0.2;
-		}
-		this.updateLinesWithThickness();
-
-	}
-
-	decrementThickness(){
-		this.thickness-=-0.02;
-		if(this.thickness < 0){
-			this.thickness = 0;
-		}
-		this.updateLinesWithThickness();
-
-	}
+	
 
 	init(leo){
 	}
@@ -139,6 +149,7 @@ class PathManager2D {
 			"texHeight": layer.texture.height
 		});
 		leo.Engine.RenderingEngine2D.addRenderer(this.lineRenderer, 1);
+		leo.Events.EventEmitter.listen(this.keyPressed.bind(this), "KEY_DOWN", "USER_KEY_INPUT");
 
 	}
 
@@ -148,7 +159,7 @@ class PathManager2D {
 		this.pathModel = new Model();
 		this.meshRenderer = new MeshRenderer2D();
 		this.meshRenderer.addModel(this.pathModel);
-		this.setThickness(0.005);
+		this.setThickness(0);
 		this.setLineColor(0.0, 0.0, 0.0, 1.0);
 		leo.Engine.RenderingEngine2D.addRenderer(this.meshRenderer, 3);
 
@@ -158,6 +169,20 @@ class PathManager2D {
 		this.lineRenderer.setLineColor(r, g, b, a);
 		this.pathModel.setColor([r, g, b, a]);
 		leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+	}
+
+	keyPressed(e){
+		if(e.key === leo.Keyboard.MINUS){
+			this.decrementThickness();
+			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+
+		}
+
+		if(e.key === leo.Keyboard.PLUS){
+			this.increamentThickness();
+			leo.Events.EventEmitter.shout("SCENE_CHANGED", null, "SCENE");
+
+		}
 	}
 
 }
