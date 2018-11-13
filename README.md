@@ -1,23 +1,23 @@
-Requirements:
 
-	A. draw like paint:
-		1. Line Tool
-		2. Circle
-		3. Rectangle
-		4. Pen
-		5. Brush
-		6. Eraser
-		7. Spline/Curve
-		8. Bucket
-		9. Color Picker
-		10. ColorWheel
-		11. Shapes (polygons, preset shapes)
-		12. Line Sizes
-		13. Select Tool
-		14. Rotate Tool
-		15. Outline/Fill options
+# Overview
+A paint clone using JavaScript, React.js, and WegGL
 
-	B. Undo/Redo
-	C. Replay Drawing and export to video
-	D. Support for vector layers and Raster layers
-	E. Eventual 3d Support
+# Features
+So far the following features have been implemented
+
+		1. Line Tool		
+		2. Rectangle
+		3. Pen
+		4. Brush
+		5. Eraser
+		6. Spline/Curve
+		7. Shapes (polygons)
+		8. PolyLine
+		9. Increase/Decrease Line or brush width with +/-
+		
+# To be implemented:
+
+	- Flood Fill
+	- Circle
+	- Select/Move/Rotate Tool
+	- Undo/Redo
