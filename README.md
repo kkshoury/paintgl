@@ -2,6 +2,7 @@
 # Overview
 A paint clone using JavaScript, React.js, and WegGL
 
+![alt text](https://github.com/kkshoury/paintgl/blob/master/snapshot.PNG)
 # Features
 So far the following features have been implemented
 
